@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Black Friday Beauty Haul – cheapest UK prices</title>
+<meta name="description" content="Where to buy our beauty list for the least money in the UK – checked 23 November 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fbf6f0;
+    --paper: #ffffff;
+    --blush: #f4d9d0;
+    --blush-deep: #e8b4a6;
+    --rose: #b5566b;
+    --rose-dark: #8e3b50;
+    --plum: #3b2230;
+    --muted: #7a6670;
+    --sage: #dfe8dc;
+    --sage-deep: #4f6b4a;
+    --gold: #c99a4b;
+    --line: #eadfd8;
+    --shadow: 0 1px 2px rgba(59,34,48,.06), 0 8px 24px rgba(59,34,48,.07);
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--plum);
+    background:
+      radial-gradient(1200px 500px at 85% -10%, #f9e4dc 0%, transparent 60%),
+      radial-gradient(900px 400px at -10% 20%, #eef3ea 0%, transparent 55%),
+      var(--cream);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  a { color: var(--rose-dark); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 700; line-height: 1.15; margin: 0; }
+
+  /* Hero */
+  .hero { padding: 44px 0 28px; display: grid; grid-template-columns: 1.25fr .9fr; gap: 36px; align-items: center; }
+  .eyebrow { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); background: var(--paper); border: 1px solid var(--line); padding: 6px 12px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(36px, 6vw, 58px); margin: 16px 0 14px; letter-spacing: -.01em; }
+  .hero h1 em { font-style: italic; color: var(--rose); font-weight: 500; }
+  .hero p.lead { font-size: 18px; color: var(--muted); margin: 0 0 22px; max-width: 34ch; }
+  .cat-frame { position: relative; justify-self: center; width: min(340px, 100%); }
+  .cat-frame img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 200px 200px 24px 24px; box-shadow: var(--shadow); border: 8px solid var(--paper); display: block; }
+  .cat-badge { position: absolute; left: -14px; bottom: 26px; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 14px; padding: 10px 14px; font-size: 14px; font-weight: 600; transform: rotate(-4deg); }
+  .cat-badge small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+  .paw { position: absolute; right: -6px; top: 18px; background: var(--rose); color: #fff; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-family: Fraunces, serif; font-size: 13px; line-height: 1.05; text-align: center; transform: rotate(10deg); box-shadow: var(--shadow); }
+
+  /* Verdict */
+  .verdict { background: var(--plum); color: #fff; border-radius: 26px; padding: 28px; display: grid; grid-template-columns: 1fr auto; gap: 20px 28px; align-items: center; box-shadow: var(--shadow); margin: 10px 0 40px; position: relative; overflow: hidden; }
+  .verdict::after { content: ""; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(232,180,166,.35), transparent 70%); }
+  .verdict .label { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--blush-deep); font-weight: 600; }
+  .verdict h2 { font-size: clamp(26px, 4vw, 36px); margin: 6px 0 8px; }
+  .verdict p { margin: 0; color: #e9dde2; }
+  .totals { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 16px; }
+  .total-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 10px 16px; }
+  .total-box b { display: block; font-family: Fraunces, serif; font-size: 26px; }
+  .total-box span { font-size: 13px; color: #d9c8cf; }
+  .total-box s { color: #bfaab3; }
+  .btn { display: inline-block; text-decoration: none; background: var(--blush); color: var(--plum); font-weight: 600; padding: 14px 22px; border-radius: 999px; white-space: nowrap; position: relative; z-index: 1; transition: transform .15s ease, background .15s ease; }
+  .btn:hover { transform: translateY(-1px); background: #fbe5dd; }
+  .btn:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+  /* Section heads */
+  .section { margin: 0 0 44px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+  .section-head h2 { font-size: clamp(24px, 3.4vw, 32px); }
+  .section-head p { margin: 0; color: var(--muted); }
+
+  /* Item cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  .tag { align-self: flex-start; font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: var(--sage); color: var(--sage-deep); margin-bottom: 10px; }
+  .tag.lips { background: #f8e1e6; color: var(--rose-dark); }
+  .tag.dry { background: #efe6d6; color: #7a5a22; }
+  .card h3 { font-size: 21px; margin-bottom: 2px; }
+  .size { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+  .price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .price { font-family: Fraunces, serif; font-size: 34px; font-weight: 700; color: var(--rose-dark); }
+  .rrp { color: var(--muted); }
+  .save { font-size: 13px; font-weight: 600; background: #fdecef; color: var(--rose-dark); padding: 3px 8px; border-radius: 8px; }
+  .where { margin: 6px 0 14px; font-size: 15px; }
+  .where a { font-weight: 600; }
+  .others { border-top: 1px dashed var(--line); padding-top: 12px; margin-top: auto; }
+  .others h4 { margin: 0 0 6px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .others ul { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+  .others li { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+  .others li span.p { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .others li.avoid { color: var(--muted); }
+  .note { margin: 10px 0 0; font-size: 14px; background: var(--cream); border-radius: 12px; padding: 10px 12px; }
+  .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 14px; }
+  .choice a { text-decoration: none; color: inherit; background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: block; }
+  .choice a:hover { border-color: var(--blush-deep); }
+  .choice b { display: block; font-family: Fraunces, serif; font-size: 22px; color: var(--rose-dark); }
+  .choice span { font-size: 13px; color: var(--muted); }
+
+  /* Tables */
+  .table-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .table-card + .table-card { margin-top: 18px; }
+  .table-card h3 { font-size: 19px; padding: 18px 20px 4px; }
+  .table-card p.sub { margin: 0; padding: 0 20px 12px; color: var(--muted); font-size: 14px; }
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 440px; }
+  th, td { text-align: left; padding: 11px 20px; border-top: 1px solid var(--line); }
+  th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: #fdfaf7; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.best td { background: #f3f8f1; font-weight: 600; }
+  tr.best td:first-child::before { content: "★ "; color: var(--gold); }
+
+  /* Notes */
+  .tips { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .tip { background: var(--paper); border: 1px solid var(--line); border-left: 5px solid var(--blush-deep); border-radius: 14px; padding: 16px 18px; font-size: 15px; }
+  .tip b { display: block; margin-bottom: 4px; font-family: Fraunces, serif; font-size: 17px; }
+  .tip.warn { border-left-color: var(--gold); }
+
+  footer { border-top: 1px solid var(--line); padding: 26px 0 44px; color: var(--muted); font-size: 14px; display: flex; gap: 16px; align-items: center; }
+  footer img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 3px solid var(--paper); box-shadow: var(--shadow); flex: none; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 28px; gap: 26px; }
+    .cat-frame { width: min(300px, 86%); }
+    .verdict { grid-template-columns: 1fr; padding: 22px; }
+    .btn { justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow">🛍️ Black Friday price check</span>
+      <h1>The beauty haul, <em>for less</em></h1>
+      <p class="lead">I checked every UK shop for the cheapest price on our list. One shop wins on everything.</p>
+      <a class="btn" href="#list" style="background:var(--plum);color:#fff">See the list ↓</a>
+    </div>
+    <figure class="cat-frame" style="margin:0">
+      <img src="img/cat-1.jpg" alt="Our tabby and white cat looking straight at the camera" width="900" height="1350">
+      <div class="paw">Cat<br>approved</div>
+      <div class="cat-badge">Head of Quality Control<small>has reviewed every price</small></div>
+    </figure>
+  </header>
+
+  <section class="verdict" aria-label="Verdict">
+    <div>
+      <div class="label">The winner</div>
+      <h2>Get everything from Cult Beauty</h2>
+      <p>They have 30% off almost everything for Black Friday, which is as cheap as or cheaper than anywhere else for every item. Free UK delivery on orders over £25.</p>
+      <div class="totals">
+        <div class="total-box"><b>£138.05</b><span>for all 7 items</span></div>
+        <div class="total-box"><b><s>£196.00</s></b><span>normal price</span></div>
+        <div class="total-box"><b>£57.95</b><span>saved</span></div>
+      </div>
+    </div>
+    <a class="btn" href="https://www.cultbeauty.co.uk/" target="_blank" rel="noopener">Go to Cult Beauty →</a>
+  </section>
+
+  <section class="section" id="list">
+    <div class="section-head">
+      <h2>The list</h2>
+      <p>Best price first, then the other places I checked.</p>
+    </div>
+
+    <div class="grid">
+
+      <article class="card">
+        <span class="tag">Ouai haircare</span>
+        <h3>Medium Hair Shampoo</h3>
+        <div class="size">300ml</div>
+        <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-shampoo-300ml/12505452/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
+          <li><a href="https://theouai.co.uk/products/medium-hair-shampoo" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£21.00</span></li>
+          <li class="avoid">Amazon (outside seller – skip)<span class="p">£21.00</span></li>
+        </ul></div>
+      </article>
+
+      <article class="card">
+        <span class="tag">Ouai haircare</span>
+        <h3>Medium Hair Conditioner</h3>
+        <div class="size">300ml</div>
+        <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-conditioner-300ml/12505453/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
+          <li><a href="https://theouai.co.uk/products/medium-hair-conditioner" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£21.00</span></li>
+          <li><a href="https://www.boots.com/ouai-medium-conditioner-300ml-10332022" target="_blank" rel="noopener">Boots</a><span class="p">£22.40</span></li>
+        </ul></div>
+      </article>
+
+      <article class="card">
+        <span class="tag">Ouai haircare</span>
+        <h3>Anti-Dandruff Shampoo</h3>
+        <div class="size">300ml</div>
+        <div class="price-row"><span class="price">£23.80</span><span class="rrp"><s>£34</s></span><span class="save">−30%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-anti-dandruff-shampoo-300ml/14023730/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/haircare/shampoo/shampoo/anti-dandruff-shampoo-MUK200037253.html" target="_blank" rel="noopener">Space NK</a><span class="p">£23.80</span></li>
+          <li><a href="https://theouai.co.uk/products/anti-dandruff-shampoo" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£25.50</span></li>
+          <li><a href="https://www.sephora.co.uk/p/ouai-anti-dandruff-shampoo-shampoo" target="_blank" rel="noopener">Sephora UK</a><span class="p">£34.00</span></li>
+        </ul></div>
+      </article>
+
+      <article class="card">
+        <span class="tag">Ouai haircare</span>
+        <h3>Detox Shampoo</h3>
+        <div class="size">300ml</div>
+        <div class="price-row"><span class="price">£21.00</span><span class="rrp"><s>£30</s></span><span class="save">−30%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-detox-shampoo-300ml/12560959/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£21.00</span></li>
+          <li><a href="https://www.lookfantastic.com/p/ouai-detox-shampoo-300ml/12560959/" target="_blank" rel="noopener">LookFantastic</a><span class="p">£21.00</span></li>
+          <li><a href="https://theouai.co.uk/products/detox-shampoo" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£22.50</span></li>
+        </ul></div>
+      </article>
+
+      <article class="card">
+        <span class="tag lips">Lips</span>
+        <h3>Summer Fridays</h3>
+        <div class="size">Pick whichever one you meant</div>
+        <div class="choice">
+          <a href="https://www.cultbeauty.co.uk/p/summer-fridays-lip-butter-balm-15g-various-shades/13322271/" target="_blank" rel="noopener"><b>£16.10</b>Lip Butter Balm<br><span>15g · was £23</span></a>
+          <a href="https://www.cultbeauty.co.uk/p/summer-fridays-dream-lip-oil-4.5ml-various-shades/15057581/" target="_blank" rel="noopener"><b>£18.20</b>Dream Lip Oil<br><span>4.5ml · was £26</span></a>
+        </div>
+        <p class="where">both at <b>Cult Beauty</b> (−30%)</p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/lip-butter-balm-MUK200031226.html" target="_blank" rel="noopener">Space NK – Balm</a><span class="p">£16.10</span></li>
+          <li><a href="https://www.spacenk.com/uk/makeup/lips/lip-gloss/dream-lip-oil-MUK200041108.html" target="_blank" rel="noopener">Space NK – Lip Oil</a><span class="p">£18.20</span></li>
+        </ul>
+        <p class="note">Summer Fridays don't make anything called a "lip gloss". The famous one is the Lip Butter Balm, and the glossiest is the Dream Lip Oil.</p></div>
+      </article>
+
+      <article class="card">
+        <span class="tag lips">Lips</span>
+        <h3>Ole Henriksen Pout Preserve</h3>
+        <div class="size">Peptide lip treatment (the glossy one) · 12ml</div>
+        <div class="price-row"><span class="price">£12.75</span><span class="rrp"><s>£17</s></span><span class="save">−25%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ole-henriksen-pout-preserve-peptide-lip-treatment-citrus-sunshine-original-12ml/14887425/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/pout-preserve-peptide-lip-treatment-MUK200053977.html" target="_blank" rel="noopener">Space NK</a><span class="p">£13.50</span></li>
+          <li><a href="https://www.sephora.co.uk/p/olehenriksen-pout-preserve-hydrating-peptide-lip-treatment" target="_blank" rel="noopener">Sephora UK</a><span class="p">£14.40</span></li>
+        </ul>
+        <p class="note">Some shades are even cheaper at Cult Beauty: <a href="https://www.cultbeauty.co.uk/p/ole-henriksen-pout-preserve-lip-treatment-vanilla-bonbon-12ml/17370258/" target="_blank" rel="noopener">Vanilla Bonbon £11.90</a>, and Strawberry Sorbet Glimmer is £8.50 (half price). <a href="https://www.cultbeauty.co.uk/search/?q=ole%20henriksen%20pout%20preserve" target="_blank" rel="noopener">See all shades</a>.</p></div>
+      </article>
+
+      <article class="card">
+        <span class="tag dry">Dry shampoo</span>
+        <h3>Living Proof Clean + Soft Set</h3>
+        <div class="size">Double pack · 2 × 198ml Advanced Clean Dry Shampoo</div>
+        <div class="price-row"><span class="price">£25.20</span><span class="rrp"><s>£36</s></span><span class="save">−30%</span></div>
+        <p class="where">at <a href="https://www.cultbeauty.co.uk/p/living-proof-the-clean-soft-set/17904408/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="others"><h4>Also checked</h4><ul>
+          <li><a href="https://www.spacenk.com/uk/search?q=living%20proof%20clean%20soft" target="_blank" rel="noopener">Space NK</a><span class="p">£25.20</span></li>
+          <li><a href="https://www.sephora.co.uk/brands/living-proof" target="_blank" rel="noopener">Sephora UK</a><span class="p">£28.80</span></li>
+          <li><a href="https://www.lookfantastic.com/c/brands/living-proof/" target="_blank" rel="noopener">LookFantastic</a><span class="p">£36.00</span></li>
+        </ul>
+        <p class="note">You were right: the double pack is the best value. See the comparison below.</p></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Bigger bottles, better value</h2>
+      <p>If we go through a lot of Ouai, the big sizes are much cheaper per ml.</p>
+    </div>
+
+    <div class="table-card">
+      <h3>Ouai Medium Shampoo or Conditioner</h3>
+      <p class="sub">Cult Beauty, 30% off · same prices for shampoo and conditioner</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Size</th><th class="num">Price</th><th class="num">Per 100ml</th></tr></thead>
+        <tbody>
+          <tr><td>300ml bottle</td><td class="num">£19.60</td><td class="num">£6.53</td></tr>
+          <tr><td>474ml jumbo with pump</td><td class="num">£28.00</td><td class="num">£5.91</td></tr>
+          <tr class="best"><td>946ml refill pouch</td><td class="num">£39.20</td><td class="num">£4.14</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="table-card">
+      <h3>Ouai Detox Shampoo</h3>
+      <p class="sub">Cult Beauty, 30% off · Anti-Dandruff only comes in 300ml</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Size</th><th class="num">Price</th><th class="num">Per 100ml</th></tr></thead>
+        <tbody>
+          <tr><td>300ml bottle</td><td class="num">£21.00</td><td class="num">£7.00</td></tr>
+          <tr><td>474ml jumbo with pump</td><td class="num">£28.00</td><td class="num">£5.91</td></tr>
+          <tr class="best"><td>946ml refill pouch</td><td class="num">£42.00</td><td class="num">£4.44</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Dry shampoo: which pack?</h2>
+      <p>Living Proof Perfect Hair Day, cheapest options compared.</p>
+    </div>
+    <div class="table-card">
+      <div class="scroll"><table>
+        <thead><tr><th>Option</th><th class="num">Price</th><th class="num">Per 100ml</th></tr></thead>
+        <tbody>
+          <tr class="best"><td>Clean + Soft Set, 2 × 198ml Advanced Clean (Cult Beauty)</td><td class="num">£25.20</td><td class="num">£6.36</td></tr>
+          <tr><td>Original formula jumbo, 355ml (Cult Beauty)</td><td class="num">£25.20</td><td class="num">£7.10</td></tr>
+          <tr><td>Advanced Clean jumbo, 355ml (Cult Beauty)</td><td class="num">£26.60</td><td class="num">£7.49</td></tr>
+          <tr><td>Single can, 198ml (Cult Beauty)</td><td class="num">£18.90</td><td class="num">£9.55</td></tr>
+          <tr><td>Icons Duo, Original + Advanced Clean (LookFantastic)</td><td class="num">£39.75</td><td class="num">–</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Good to know</h2></div>
+    <div class="tips">
+      <div class="tip"><b>Lip oil instead of balm?</b>If we get the Summer Fridays Dream Lip Oil instead of the Lip Butter Balm, the total goes up from £138.05 to £140.15.</div>
+      <div class="tip"><b>Backup shop</b>If Cult Beauty sells out of something, Space NK has the same 30% off on most of the list. Ouai's own site has 25% off everything, taken off in the basket.</div>
+      <div class="tip"><b>Dry shampoo formula</b>Both cans in the double pack are the Advanced Clean version. If you prefer the original Perfect Hair Day formula, get the 355ml jumbo at £25.20.</div>
+      <div class="tip warn"><b>Avoid Amazon &amp; eBay</b>The Ouai on Amazon is sold by an outside seller, not Amazon itself. It's dearer anyway, and there's a higher risk of fakes.</div>
+    </div>
+  </section>
+
+  <footer>
+    <img src="img/cat-1.jpg" alt="" aria-hidden="true">
+    <div>Prices checked on Monday 23 November 2026 at Cult Beauty, Space NK, LookFantastic, Sephora UK, Boots, Ouai UK and Amazon UK. Black Friday prices change quickly, so check before buying.</div>
+  </footer>
+
+</div>
+</body>
+</html>
