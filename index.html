@@ -225,6 +225,12 @@
   .req-status.done { background: var(--sage); color: var(--sage-deep); }
   .req-status.failed { background: #fde9ec; color: var(--rose-dark); }
   .req-list a { color: inherit; }
+  .req-list .req-name { flex: 1; }
+  .req-del { font: inherit; border: 0; background: transparent; color: var(--muted); font-size: 18px; line-height: 1; padding: 4px 8px; cursor: pointer; border-radius: 8px; }
+  .req-del:hover { background: var(--cream); color: var(--rose-dark); }
+  .req-timer { margin: 12px 0 0; font-size: 14px; color: var(--muted); }
+  .req-timer b { color: var(--plum); font-variant-numeric: tabular-nums; }
+  .card .card-del { float: right; margin: -6px -6px 0 0; }
   .tag.req { background: #e8f0fb; color: #2b5aa0; }
 
   /* Christmas snow */
@@ -472,6 +478,7 @@
         <input type="text" id="req-input" maxlength="120" placeholder="e.g. Ouai Scalp Serum 60ml">
         <button type="submit">Send</button>
       </form>
+      <p class="req-timer" id="req-timer">Waiting for the price checker to start…</p>
       <ul id="req-list" class="req-list"></ul>
     </div>
     <div class="grid" id="req-cards" style="margin-top:18px"></div>
@@ -870,13 +877,37 @@ if (FIREBASE_CONFIG) {
       push(ref(db, root + '/requests'), { text: v.slice(0, 120), status: 'pending', at: serverTimestamp() });
       inp.value = '';
     });
+    const { remove } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
+    reqSection.addEventListener('click', e => {
+      const b = e.target.closest('[data-del]');
+      if (!b) return;
+      if (confirm('Remove this item from the page for both of you?')) remove(ref(db, root + '/requests/' + b.dataset.del));
+    });
+    // Countdown to the next automatic check (the checker records each run)
+    let lastRun = 0;
+    const EVERY = 5 * 60 * 1000;
+    onValue(ref(db, root + '/checker/lastRun'), s2 => { lastRun = s2.val() || 0; tickTimer(); });
+    function tickTimer() {
+      const el = document.getElementById('req-timer');
+      if (!lastRun) { el.textContent = 'Waiting for the price checker to start…'; return; }
+      const now = Date.now(), ago = Math.max(0, now - lastRun), left = lastRun + EVERY - now;
+      const agoTxt = ago < 60000 ? 'just now' : Math.floor(ago / 60000) + ' min ago';
+      if (ago > 30 * 60 * 1000) { el.innerHTML = 'The price checker is paused (last ran ' + Math.floor(ago / 60000) + ' min ago). It runs while the Claude app is open on the PC.'; return; }
+      if (left > 0) {
+        const m = Math.floor(left / 60000), sec = Math.floor(left / 1000) % 60;
+        el.innerHTML = 'Next price check in <b>' + m + ':' + String(sec).padStart(2, '0') + '</b> · last check ' + agoTxt;
+      } else {
+        el.innerHTML = '<b>Price check due any moment…</b> · last check ' + agoTxt;
+      }
+    }
+    setInterval(tickTimer, 1000);
     onValue(ref(db, root + '/requests'), snap => {
       const all = Object.entries(snap.val() || {}).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
       const list = document.getElementById('req-list'), cards = document.getElementById('req-cards');
       list.innerHTML = all.map(([id, r]) => {
         const st = label[r.status] ? r.status : 'pending';
         const name = r.status === 'done' ? '<a href="#req-' + esc(id) + '">' + esc(r.text) + '</a>' : esc(r.text);
-        return '<li><span>' + name + '</span><span class="req-status ' + st + '">' + label[st] + '</span></li>';
+        return '<li><span class="req-name">' + name + '</span><span class="req-status ' + st + '">' + label[st] + '</span><button type="button" class="req-del" data-del="' + esc(id) + '" aria-label="Remove ' + esc(r.text) + '">×</button></li>';
       }).join('');
       cards.innerHTML = all.filter(([, r]) => r.status === 'done' && r.result).map(([id, r]) => {
         const x = r.result, best = x.best || {}, url = safeUrl(best.url);
@@ -884,6 +915,7 @@ if (FIREBASE_CONFIG) {
         const save = (typeof best.rrp === 'number' && typeof best.price === 'number' && best.rrp > best.price) ? Math.round(100 * (1 - best.price / best.rrp)) : 0;
         const when = x.checkedAt ? new Date(x.checkedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
         return '<article class="card" id="req-' + esc(id) + '">' +
+          '<button type="button" class="req-del card-del" data-del="' + esc(id) + '" aria-label="Remove this card">×</button>' +
           '<span class="tag req">Requested · checked ' + esc(when) + '</span>' +
           '<h3>' + esc(x.product || r.text) + '</h3>' +
           '<div class="size">' + esc(x.size || '') + '</div>' +
