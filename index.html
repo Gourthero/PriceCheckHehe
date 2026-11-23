@@ -215,6 +215,18 @@
   .sync.on .dot { background: #3c9a52; box-shadow: 0 0 0 3px rgba(60,154,82,.18); }
   .sync.off .dot { background: #d08a2b; }
 
+
+  /* Price-check requests */
+  .req-list { list-style: none; margin: 14px 0 0; padding: 0; }
+  .req-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .req-status { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .req-status.pending { background: #fdf5e6; color: #8a6116; }
+  .req-status.working { background: #e8f0fb; color: #2b5aa0; }
+  .req-status.done { background: var(--sage); color: var(--sage-deep); }
+  .req-status.failed { background: #fde9ec; color: var(--rose-dark); }
+  .req-list a { color: inherit; }
+  .tag.req { background: #e8f0fb; color: #2b5aa0; }
+
   /* Christmas snow */
   #snow { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
   body.basic #snow { display: none; }
@@ -447,6 +459,22 @@
       </article>
 
     </div>
+  </section>
+
+  <section class="section" data-d id="requests" hidden>
+    <div class="section-head">
+      <h2>Ask for a price check 🔎</h2>
+      <p>Type anything you'd like priced up. It gets checked automatically, usually within 10 minutes, and appears here.</p>
+    </div>
+    <div class="wish req-box">
+      <form id="req-form" autocomplete="off">
+        <label for="req-input" style="position:absolute;left:-9999px">Item to price check</label>
+        <input type="text" id="req-input" maxlength="120" placeholder="e.g. Ouai Scalp Serum 60ml">
+        <button type="submit">Send</button>
+      </form>
+      <ul id="req-list" class="req-list"></ul>
+    </div>
+    <div class="grid" id="req-cards" style="margin-top:18px"></div>
   </section>
 
   <section class="section">
@@ -825,6 +853,50 @@ if (FIREBASE_CONFIG) {
       bTimer = setTimeout(() => { const v = parseFloat(budgetIn.value); if (v >= 0) set(ref(db, root + '/budget'), v); }, 500);
     });
     window.PC_onWishes = list => { if (!applying) set(ref(db, root + '/wishes'), list); };
+
+
+    // ----- Price-check requests: she asks, the automatic checker fills in the result -----
+    const reqSection = document.getElementById('requests');
+    reqSection.hidden = false;
+    const { push, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
+    const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const safeUrl = u => /^https:\/\/[^\s"'<>]+$/.test(u || '') ? u : null;
+    const money = n => (typeof n === 'number' && isFinite(n)) ? '£' + n.toFixed(2) : '';
+    const label = { pending: 'Waiting ⏳', working: 'Checking now 🔎', done: 'Done ✓', failed: 'Couldn't find it' };
+    document.getElementById('req-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const inp = document.getElementById('req-input'), v = inp.value.trim();
+      if (v.length < 2) return;
+      push(ref(db, root + '/requests'), { text: v.slice(0, 120), status: 'pending', at: serverTimestamp() });
+      inp.value = '';
+    });
+    onValue(ref(db, root + '/requests'), snap => {
+      const all = Object.entries(snap.val() || {}).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
+      const list = document.getElementById('req-list'), cards = document.getElementById('req-cards');
+      list.innerHTML = all.map(([id, r]) => {
+        const st = label[r.status] ? r.status : 'pending';
+        const name = r.status === 'done' ? '<a href="#req-' + esc(id) + '">' + esc(r.text) + '</a>' : esc(r.text);
+        return '<li><span>' + name + '</span><span class="req-status ' + st + '">' + label[st] + '</span></li>';
+      }).join('');
+      cards.innerHTML = all.filter(([, r]) => r.status === 'done' && r.result).map(([id, r]) => {
+        const x = r.result, best = x.best || {}, url = safeUrl(best.url);
+        const others = (Array.isArray(x.others) ? x.others : Object.values(x.others || {})).slice(0, 5);
+        const save = (typeof best.rrp === 'number' && typeof best.price === 'number' && best.rrp > best.price) ? Math.round(100 * (1 - best.price / best.rrp)) : 0;
+        const when = x.checkedAt ? new Date(x.checkedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+        return '<article class="card" id="req-' + esc(id) + '">' +
+          '<span class="tag req">Requested · checked ' + esc(when) + '</span>' +
+          '<h3>' + esc(x.product || r.text) + '</h3>' +
+          '<div class="size">' + esc(x.size || '') + '</div>' +
+          '<div class="price-row"><span class="price">' + money(best.price) + '</span>' +
+          (save ? '<span class="rrp"><s>' + money(best.rrp) + '</s></span><span class="save">−' + save + '%</span>' : '') + '</div>' +
+          '<p class="where">at ' + (url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(best.shop) + '</a>' : esc(best.shop || '')) + '</p>' +
+          (others.length ? '<div class="others"><h4>Also checked</h4><ul>' + others.map(o => {
+            const ou = safeUrl(o.url);
+            return '<li>' + (ou ? '<a href="' + ou + '" target="_blank" rel="noopener">' + esc(o.shop) + '</a>' : esc(o.shop)) + '<span class="p">' + money(o.price) + '</span></li>';
+          }).join('') + '</ul>' : '<div class="others">') +
+          (x.note ? '<p class="note">' + esc(x.note) + '</p>' : '') + '</div></article>';
+      }).join('');
+    });
 
     // Shared -> local
     let first = true;
