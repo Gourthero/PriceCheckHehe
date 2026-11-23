@@ -234,6 +234,16 @@
   .card .card-del { position: absolute; top: 10px; right: 10px; }
   .tag.req { background: #e8f0fb; color: #2b5aa0; }
 
+
+  /* Latest automatic check */
+  .live { font-size: 13.5px; margin: 0 0 12px; padding: 8px 10px; border-radius: 10px; background: #f3f6fb; color: #34507a; }
+  .live:empty { display: none; }
+  .live.down { background: #eaf5ec; color: #2f6b3a; }
+  .live.up { background: #fdecef; color: var(--rose-dark); }
+  .live.oos { background: #fdf5e6; color: #8a6116; }
+  .live b { font-variant-numeric: tabular-nums; }
+  .checked-list { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+
   /* Christmas snow */
   #snow { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
   body.basic #snow { display: none; }
@@ -336,6 +346,7 @@
         <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-shampoo-300ml/12505452/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="5 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span></span> <span class="vc-line">Smells lovely. Sat on the bottle for warmth. Approved.</span></div>
+        <div class="live" data-d data-live="medSh" data-base="19.60"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="medSh" data-price="19.60"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
@@ -352,6 +363,7 @@
         <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-conditioner-300ml/12505453/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Promising fluffiness. Would like some for own fur.</span></div>
+        <div class="live" data-d data-live="medCo" data-base="19.60"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="medCo" data-price="19.60"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
@@ -368,6 +380,7 @@
         <div class="price-row"><span class="price">£23.80</span><span class="rrp"><s>£34</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-anti-dandruff-shampoo-300ml/14023730/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Fewer flakes on the sofa means more sofa for me.</span></div>
+        <div class="live" data-d data-live="dand" data-base="23.80"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="dand" data-price="23.80"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/haircare/shampoo/shampoo/anti-dandruff-shampoo-MUK200037253.html" target="_blank" rel="noopener">Space NK</a><span class="p">£23.80</span></li>
@@ -384,6 +397,7 @@
         <div class="price-row"><span class="price">£21.00</span><span class="rrp"><s>£30</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-detox-shampoo-300ml/12560959/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="3 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Suspicious of the word "detox". Allowed anyway.</span></div>
+        <div class="live" data-d data-live="detox" data-base="21.00"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="detox" data-price="21.00"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£21.00</span></li>
@@ -416,6 +430,8 @@
           <div class="picked" aria-live="polite"></div>
         </div>
         <div class="verdict-cat" data-d><span class="paws" aria-label="5 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span></span> <span class="vc-line">Batted the lid under the fridge. Highest honours.</span></div>
+        <div class="live" data-d data-live="sfBalm" data-base="16.10" data-label="Balm"></div>
+        <div class="live" data-d data-live="sfOil" data-base="18.20" data-label="Lip Oil"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="sf" data-price="16.10"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/lip-butter-balm-MUK200031226.html" target="_blank" rel="noopener">Space NK – Balm</a><span class="p">£16.10</span></li>
@@ -440,6 +456,7 @@
           <div class="picked" aria-live="polite"></div>
         </div>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Too shiny to be trusted, but the price is right.</span></div>
+        <div class="live" data-d data-live="ole" data-base="12.75"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="ole" data-price="12.75"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/pout-preserve-peptide-lip-treatment-MUK200053977.html" target="_blank" rel="noopener">Space NK</a><span class="p">£13.50</span></li>
@@ -456,6 +473,7 @@
         <div class="price-row"><span class="price">£25.20</span><span class="rrp"><s>£36</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/living-proof-the-clean-soft-set/17904408/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="2 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span><span class="off">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Hiss. The spray can is the enemy. Bought anyway.</span></div>
+        <div class="live" data-d data-live="lp" data-base="25.20"></div>
         <label class="tick" data-d><input type="checkbox" data-tick="lp" data-price="25.20"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/search?q=living%20proof%20clean%20soft" target="_blank" rel="noopener">Space NK</a><span class="p">£25.20</span></li>
@@ -480,6 +498,7 @@
         <button type="submit">Send</button>
       </form>
       <p class="req-timer" id="req-timer">Waiting for the price checker to start…</p>
+      <p class="req-timer" id="recheck-timer">Full recheck of every item: waiting for the first run…</p>
       <ul id="req-list" class="req-list"></ul>
     </div>
     <div class="grid" id="req-cards" style="margin-top:18px"></div>
@@ -581,17 +600,17 @@
     </div>
     <div class="table-card">
       <div class="scroll"><table>
-        <thead><tr><th>Item (Cult Beauty)</th><th class="num">Normal price</th><th class="num">23 Nov, morning</th><th class="num">23 Nov, 3pm</th></tr></thead>
+        <thead><tr><th>Item (Cult Beauty)</th><th class="num">Normal price</th><th class="num">23 Nov, morning</th><th class="num">23 Nov, 3pm</th><th class="num" id="hist-live-h" hidden>Latest (auto)</th></tr></thead>
         <tbody>
-          <tr><td>Ouai Medium Shampoo 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
-          <tr><td>Ouai Medium Conditioner 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
-          <tr><td>Ouai Anti-Dandruff 300ml</td><td class="num">£34.00</td><td class="num">£23.80</td><td class="num">£23.80 <span class="same">=</span></td></tr>
-          <tr><td>Ouai Detox 300ml</td><td class="num">£30.00</td><td class="num">£21.00</td><td class="num">£21.00 <span class="same">=</span></td></tr>
-          <tr><td>Summer Fridays Lip Butter Balm</td><td class="num">£23.00</td><td class="num">£16.10</td><td class="num">£16.10 <span class="same">=</span></td></tr>
-          <tr><td>Summer Fridays Dream Lip Oil</td><td class="num">£26.00</td><td class="num">£18.20</td><td class="num">£18.20 <span class="same">=</span></td></tr>
-          <tr><td>Ole Henriksen Pout Preserve</td><td class="num">£17.00</td><td class="num">£12.75</td><td class="num">£12.75 <span class="same">=</span></td></tr>
-          <tr><td>Living Proof Clean + Soft Set</td><td class="num">£36.00</td><td class="num">£25.20</td><td class="num">£25.20 <span class="same">=</span></td></tr>
-          <tr class="best"><td>Whole list (with Lip Butter Balm)</td><td class="num">£196.00</td><td class="num">£138.05</td><td class="num">£138.05</td></tr>
+          <tr data-hist="medSh"><td>Ouai Medium Shampoo 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
+          <tr data-hist="medCo"><td>Ouai Medium Conditioner 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
+          <tr data-hist="dand"><td>Ouai Anti-Dandruff 300ml</td><td class="num">£34.00</td><td class="num">£23.80</td><td class="num">£23.80 <span class="same">=</span></td></tr>
+          <tr data-hist="detox"><td>Ouai Detox 300ml</td><td class="num">£30.00</td><td class="num">£21.00</td><td class="num">£21.00 <span class="same">=</span></td></tr>
+          <tr data-hist="sfBalm"><td>Summer Fridays Lip Butter Balm</td><td class="num">£23.00</td><td class="num">£16.10</td><td class="num">£16.10 <span class="same">=</span></td></tr>
+          <tr data-hist="sfOil"><td>Summer Fridays Dream Lip Oil</td><td class="num">£26.00</td><td class="num">£18.20</td><td class="num">£18.20 <span class="same">=</span></td></tr>
+          <tr data-hist="ole"><td>Ole Henriksen Pout Preserve</td><td class="num">£17.00</td><td class="num">£12.75</td><td class="num">£12.75 <span class="same">=</span></td></tr>
+          <tr data-hist="lp"><td>Living Proof Clean + Soft Set</td><td class="num">£36.00</td><td class="num">£25.20</td><td class="num">£25.20 <span class="same">=</span></td></tr>
+          <tr class="best"><td>Whole list (with Lip Butter Balm)</td><td class="num">£196.00</td><td class="num">£138.05</td><td class="num">£138.05</td><td class="num" id="hist-live-total" hidden></td></tr>
         </tbody>
       </table></div>
       <p class="sub" style="padding-top:12px">Rechecked at 3pm on 23 Nov: no changes, everything in stock. Next recheck: on the day we order.</p>
@@ -902,6 +921,54 @@ if (FIREBASE_CONFIG) {
       }
     }
     setInterval(tickTimer, 1000);
+
+    // ----- Full recheck every 4 hours: badges on each item + countdown + price history column -----
+    function fmtWhen(ts) {
+      const d = new Date(ts), today = new Date().toDateString() === d.toDateString();
+      const t = d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' });
+      return today ? 'today ' + t : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' + t;
+    }
+    window.fmtWhen = fmtWhen;
+    let lastRecheck = 0;
+    const EVERY4 = 4 * 60 * 60 * 1000;
+    onValue(ref(db, root + '/checker/lastRecheck'), s3 => { lastRecheck = s3.val() || 0; tickRecheck(); });
+    function tickRecheck() {
+      const el = document.getElementById('recheck-timer');
+      if (!lastRecheck) { el.textContent = 'Full recheck of every item: waiting for the first run…'; return; }
+      const left = lastRecheck + EVERY4 - Date.now();
+      if (left <= 0) { el.innerHTML = 'Full recheck of every item: <b>due any moment…</b> · last one ' + fmtWhen(lastRecheck); return; }
+      const h = Math.floor(left / 3600000), m = Math.floor(left / 60000) % 60, sec = Math.floor(left / 1000) % 60;
+      el.innerHTML = 'Full recheck of every item in <b>' + h + 'h ' + String(m).padStart(2, '0') + 'm ' + String(sec).padStart(2, '0') + 's</b> · last one ' + fmtWhen(lastRecheck);
+    }
+    setInterval(tickRecheck, 1000);
+    onValue(ref(db, root + '/live'), s4 => {
+      const live = s4.val() || {};
+      let anyLive = false, total = 0, totalOk = true;
+      document.querySelectorAll('.live[data-live]').forEach(el => {
+        const k = el.dataset.live, v = live[k], base = parseFloat(el.dataset.base), lbl = el.dataset.label ? el.dataset.label + ': ' : '';
+        el.className = 'live';
+        if (!v || typeof v.price !== 'number') { el.innerHTML = ''; return; }
+        const when = fmtWhen(v.checkedAt), shop = esc(v.shop || 'Cult Beauty');
+        let html;
+        if (v.inStock === false) { el.classList.add('oos'); html = '⚠ ' + lbl + 'out of stock at ' + shop + ' · checked ' + when; }
+        else if (Math.abs(v.price - base) < 0.01) html = '✓ ' + lbl + 'still <b>' + money(v.price) + '</b> · checked ' + when;
+        else { const down = v.price < base; el.classList.add(down ? 'down' : 'up'); html = (down ? '⬇ ' : '⬆ ') + lbl + 'now <b>' + money(v.price) + '</b> at ' + shop + ' (was ' + money(base) + ') · ' + when; }
+        const ch = v.cheaper, cu = ch && safeUrl(ch.url);
+        if (ch && typeof ch.price === 'number' && ch.price < v.price - 0.01) html += '<br>💡 Cheaper at ' + (cu ? '<a href="' + cu + '" target="_blank" rel="noopener">' + esc(ch.shop) + '</a>' : esc(ch.shop)) + ': <b>' + money(ch.price) + '</b>';
+        el.innerHTML = html;
+      });
+      document.querySelectorAll('tr[data-hist]').forEach(tr => {
+        const v = live[tr.dataset.hist];
+        let td = tr.querySelector('td.live-col');
+        if (!td) { td = document.createElement('td'); td.className = 'num live-col'; tr.appendChild(td); }
+        if (v && typeof v.price === 'number') { anyLive = true; td.textContent = money(v.price); } else td.textContent = '–';
+      });
+      ['medSh', 'medCo', 'dand', 'detox', 'sfBalm', 'ole', 'lp'].forEach(k => { const v = live[k]; if (v && typeof v.price === 'number') total += v.price; else totalOk = false; });
+      document.getElementById('hist-live-h').hidden = !anyLive;
+      document.querySelectorAll('td.live-col').forEach(td => td.hidden = !anyLive);
+      const tt = document.getElementById('hist-live-total'); tt.hidden = !anyLive; tt.textContent = totalOk ? money(total) : '–';
+      if (anyLive) document.getElementById('hist-live-h').textContent = 'Latest (auto, ' + fmtWhen(Math.max(...Object.values(live).map(v => v.checkedAt || 0))) + ')';
+    });
     onValue(ref(db, root + '/requests'), snap => {
       const all = Object.entries(snap.val() || {}).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
       const list = document.getElementById('req-list'), cards = document.getElementById('req-cards');
@@ -915,19 +982,31 @@ if (FIREBASE_CONFIG) {
         const others = (Array.isArray(x.others) ? x.others : Object.values(x.others || {})).slice(0, 5);
         const save = (typeof best.rrp === 'number' && typeof best.price === 'number' && best.rrp > best.price) ? Math.round(100 * (1 - best.price / best.rrp)) : 0;
         const when = x.checkedAt ? new Date(x.checkedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+        const img = safeUrl(x.image);
+        const checked = (Array.isArray(x.checked) ? x.checked : Object.values(x.checked || {})).filter(c => typeof c === 'string').slice(0, 20);
+        let change = '';
+        if (x.recheckedAt) {
+          const rw = fmtWhen(x.recheckedAt), prev = x.prevPrice;
+          if (typeof prev === 'number' && typeof best.price === 'number' && Math.abs(prev - best.price) >= 0.01) {
+            const down = best.price < prev;
+            change = '<div class="live ' + (down ? 'down' : 'up') + '">' + (down ? '⬇ Price dropped' : '⬆ Price went up') + ' from ' + money(prev) + ' · rechecked ' + rw + '</div>';
+          } else change = '<div class="live">✓ Rechecked ' + rw + ', no change</div>';
+        }
         return '<article class="card" id="req-' + esc(id) + '">' +
           '<button type="button" class="req-del card-del" data-del="' + esc(id) + '" aria-label="Remove this card">×</button>' +
+          (img ? '<img class="pimg" loading="lazy" referrerpolicy="no-referrer" src="' + img + '" alt="' + esc(x.product || r.text) + '" onerror="this.remove()">' : '') +
           '<span class="tag req">Requested · checked ' + esc(when) + '</span>' +
           '<h3>' + esc(x.product || r.text) + '</h3>' +
           '<div class="size">' + esc(x.size || '') + '</div>' +
           '<div class="price-row"><span class="price">' + money(best.price) + '</span>' +
           (save ? '<span class="rrp"><s>' + money(best.rrp) + '</s></span><span class="save">−' + save + '%</span>' : '') + '</div>' +
-          '<p class="where">at ' + (url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(best.shop) + '</a>' : esc(best.shop || '')) + '</p>' +
+          '<p class="where">at ' + (url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(best.shop) + '</a>' : esc(best.shop || '')) + '</p>' + change +
           (others.length ? '<div class="others"><h4>Also checked</h4><ul>' + others.map(o => {
             const ou = safeUrl(o.url);
             return '<li>' + (ou ? '<a href="' + ou + '" target="_blank" rel="noopener">' + esc(o.shop) + '</a>' : esc(o.shop)) + '<span class="p">' + money(o.price) + '</span></li>';
           }).join('') + '</ul>' : '<div class="others">') +
-          (x.note ? '<p class="note">' + esc(x.note) + '</p>' : '') + '</div></article>';
+          (x.note ? '<p class="note">' + esc(x.note) + '</p>' : '') +
+          (checked.length ? '<p class="checked-list">Shops checked: ' + checked.map(esc).join(', ') + '</p>' : '') + '</div></article>';
       }).join('');
     });
 
