@@ -954,7 +954,7 @@ if (FIREBASE_CONFIG) {
         else if (Math.abs(v.price - base) < 0.01) html = '✓ ' + lbl + 'still <b>' + money(v.price) + '</b> · checked ' + when;
         else { const down = v.price < base; el.classList.add(down ? 'down' : 'up'); html = (down ? '⬇ ' : '⬆ ') + lbl + 'now <b>' + money(v.price) + '</b> at ' + shop + ' (was ' + money(base) + ') · ' + when; }
         const ch = v.cheaper, cu = ch && safeUrl(ch.url);
-        if (ch && typeof ch.price === 'number' && ch.price < v.price - 0.01) html += '<br>💡 Cheaper at ' + (cu ? '<a href="' + cu + '" target="_blank" rel="noopener">' + esc(ch.shop) + '</a>' : esc(ch.shop)) + ': <b>' + money(ch.price) + '</b>';
+        if (ch && typeof ch.price === 'number' && (ch.price < v.price - 0.01 || v.inStock === false)) html += '<br>💡 ' + (v.inStock === false ? 'In stock at ' : 'Cheaper at ') + (cu ? '<a href="' + cu + '" target="_blank" rel="noopener">' + esc(ch.shop) + '</a>' : esc(ch.shop)) + ': <b>' + money(ch.price) + '</b>';
         el.innerHTML = html;
       });
       document.querySelectorAll('tr[data-hist]').forEach(tr => {
