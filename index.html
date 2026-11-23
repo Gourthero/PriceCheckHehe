@@ -780,7 +780,15 @@
 <script type="module">
 // ===== Live sync between phones (Firebase Realtime Database) =====
 // Fill this in with the web app config from the Firebase console to switch sync on.
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDNiB-SCkorPF9DkZq4APZSWEZmn6HybVk",
+  authDomain: "pricecheckhehe.firebaseapp.com",
+  databaseURL: "https://pricecheckhehe-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "pricecheckhehe",
+  storageBucket: "pricecheckhehe.firebasestorage.app",
+  messagingSenderId: "997327093994",
+  appId: "1:997327093994:web:5ce801a567dde598695793"
+};
 
 const box = document.getElementById('sync'), txt = document.getElementById('sync-text');
 function status(state, msg) { box.hidden = false; box.className = 'sync ' + state; txt.textContent = msg; }
@@ -796,6 +804,8 @@ if (FIREBASE_CONFIG) {
 
     // Connection indicator
     onValue(ref(db, '.info/connected'), snap => {
+      const note = document.querySelector('.wish .small');
+      if (note) note.textContent = 'Shared: anyone with this page link sees the same wishlist, ticks and budget.';
       if (snap.val()) status('on', 'Live: changes show on both phones');
       else status('off', 'Offline: changes will sync when back online');
     });
