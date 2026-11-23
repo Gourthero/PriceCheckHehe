@@ -629,27 +629,6 @@
 
   <section class="section" data-d>
     <div class="section-head">
-      <h2>Her wishlist 💝</h2>
-      <p>Anything else she'd like? Add it here, then send the list.</p>
-    </div>
-    <div class="wish">
-      <form id="wish-form" autocomplete="off">
-        <label for="wish-input" class="sr" style="position:absolute;left:-9999px">Add an item</label>
-        <input type="text" id="wish-input" maxlength="120" placeholder="e.g. Ouai St. Barts hair mist">
-        <button type="submit">Add</button>
-      </form>
-      <ul id="wish-list"></ul>
-      <p class="empty" id="wish-empty">Nothing on the wishlist yet.</p>
-      <div class="actions" id="wish-actions" hidden>
-        <button type="button" class="ghost" id="wish-copy">Copy list</button>
-        <button type="button" class="ghost" id="wish-wa">Send on WhatsApp</button>
-      </div>
-      <p class="small">The wishlist is saved on this phone only. Use "Send on WhatsApp" to share it.</p>
-    </div>
-  </section>
-
-  <section class="section" data-d>
-    <div class="section-head">
       <h2>Meet Quality Control</h2>
       <p>The real reason this page exists.</p>
     </div>
@@ -779,40 +758,6 @@
   }
   function reduceMotion() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 
-  // Wishlist, saved on this device, shareable as text
-  var wishes = [];
-  try { wishes = JSON.parse(store.get('pc-wishes') || '[]'); } catch (e) { wishes = []; }
-  var wl = document.getElementById('wish-list'), wi = document.getElementById('wish-input');
-  function wishText() { return 'My wishlist 💝\n' + wishes.map(function (w) { return '• ' + w; }).join('\n'); }
-  function renderWishes() {
-    wl.innerHTML = '';
-    wishes.forEach(function (w, i) {
-      var li = document.createElement('li'), span = document.createElement('span'), del = document.createElement('button');
-      span.textContent = w;
-      del.type = 'button'; del.textContent = '×'; del.setAttribute('aria-label', 'Remove ' + w);
-      del.addEventListener('click', function () { wishes.splice(i, 1); saveWishes(); });
-      li.appendChild(span); li.appendChild(del); wl.appendChild(li);
-    });
-    document.getElementById('wish-empty').hidden = wishes.length > 0;
-    document.getElementById('wish-actions').hidden = wishes.length === 0;
-  }
-  function saveWishes() { store.set('pc-wishes', JSON.stringify(wishes)); renderWishes(); if (window.PC_onWishes) window.PC_onWishes(wishes.slice()); }
-  window.PC_setWishes = function (arr) { wishes = (arr || []).filter(function (w) { return typeof w === 'string'; }); store.set('pc-wishes', JSON.stringify(wishes)); renderWishes(); };
-  window.PC_getWishes = function () { return wishes.slice(); };
-  document.getElementById('wish-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = wi.value.trim();
-    if (v) { wishes.push(v); wi.value = ''; saveWishes(); }
-    wi.focus();
-  });
-  document.getElementById('wish-copy').addEventListener('click', function () {
-    var btn = this;
-    if (navigator.clipboard) navigator.clipboard.writeText(wishText()).then(function () { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy list'; }, 1800); });
-  });
-  document.getElementById('wish-wa').addEventListener('click', function () {
-    window.open('https://wa.me/?text=' + encodeURIComponent(wishText()), '_blank', 'noopener');
-  });
-  renderWishes();
 
   // Count-up for the savings number when it scrolls into view
   var el = document.getElementById('saved');
@@ -859,8 +804,6 @@ if (FIREBASE_CONFIG) {
 
     // Connection indicator
     onValue(ref(db, '.info/connected'), snap => {
-      const note = document.querySelector('.wish .small');
-      if (note) note.textContent = 'Shared: anyone with this page link sees the same wishlist, ticks and budget.';
       if (snap.val()) status('on', 'Live: changes show on both phones');
       else status('off', 'Offline: changes will sync when back online');
     });
@@ -879,7 +822,6 @@ if (FIREBASE_CONFIG) {
       clearTimeout(bTimer);
       bTimer = setTimeout(() => { const v = parseFloat(budgetIn.value); if (v >= 0) set(ref(db, root + '/budget'), v); }, 500);
     });
-    window.PC_onWishes = list => { if (!applying) set(ref(db, root + '/wishes'), list); };
 
 
     // ----- Price-check requests: she asks, the automatic checker fills in the result -----
@@ -1023,7 +965,7 @@ if (FIREBASE_CONFIG) {
         const got = {}, picks = {};
         document.querySelectorAll('input[data-tick]').forEach(t => got[t.dataset.tick] = t.checked);
         document.querySelectorAll('select[data-pick]').forEach(s => picks[s.dataset.pick] = s.value);
-        set(ref(db, root), { got, picks, budget: parseFloat(budgetIn.value) || 150, wishes: window.PC_getWishes() });
+        set(ref(db, root), { got, picks, budget: parseFloat(budgetIn.value) || 150 });
         return;
       }
       first = false;
@@ -1041,8 +983,6 @@ if (FIREBASE_CONFIG) {
         if (typeof data.budget === 'number' && document.activeElement !== budgetIn && parseFloat(budgetIn.value) !== data.budget) {
           budgetIn.value = data.budget; budgetIn.dispatchEvent(new Event('input'));
         }
-        const remote = Array.isArray(data.wishes) ? data.wishes : Object.values(data.wishes || {});
-        if (JSON.stringify(remote) !== JSON.stringify(window.PC_getWishes())) window.PC_setWishes(remote);
       } finally { applying = false; }
     }, () => status('off', 'Sync unavailable: saved on this phone only'));
   } catch (e) {
