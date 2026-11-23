@@ -131,14 +131,71 @@
     .btn { justify-self: start; }
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+
+  /* ===== Details / Basic switch ===== */
+  body.basic [data-d] { display: none !important; }
+  .mode-switch { position: fixed; top: 12px; right: 12px; z-index: 50; display: flex; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); border: 1px solid var(--line); border-radius: 999px; padding: 4px; box-shadow: var(--shadow); font-size: 13px; font-weight: 600; }
+  .mode-switch button { font: inherit; border: 0; background: transparent; color: var(--muted); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
+  .mode-switch button[aria-pressed="true"] { background: var(--plum); color: #fff; }
+
+  /* Details-only pieces */
+  .banner { margin: 64px 0 0; border-radius: 14px; padding: 12px 16px; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; border: 1px solid #ecd9b4; background: #fdf5e6; }
+  .banner.stale { background: #fde9ec; border-color: #f1bcc6; }
+  .banner b { font-weight: 600; }
+  .eyebrow.xmas { margin-left: 6px; color: var(--sage-deep); }
+  .pimg { width: 100%; aspect-ratio: 1; object-fit: contain; background: #fbf8f5; border-radius: 12px; margin-bottom: 14px; }
+  .shade { margin: 0 0 14px; font-size: 14px; }
+  .shade label { display: block; font-weight: 600; margin-bottom: 4px; }
+  .shade select { width: 100%; font: inherit; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--cream); color: var(--plum); }
+  .shade .picked { margin-top: 6px; color: var(--sage-deep); font-weight: 600; min-height: 1.2em; }
+  .savings { text-align: center; background: var(--paper); border: 1px solid var(--line); border-radius: 26px; padding: 30px 20px; box-shadow: var(--shadow); margin: 0 0 44px; }
+  .savings .big { font-family: Fraunces, serif; font-size: clamp(44px, 9vw, 72px); font-weight: 700; color: var(--rose-dark); line-height: 1; }
+  .savings p { margin: 10px auto 0; max-width: 40ch; color: var(--muted); }
+  .treats { font-size: 22px; letter-spacing: 2px; margin-top: 12px; word-break: break-all; }
+  .gifts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .gift { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform .15s ease; }
+  .gift:hover { transform: translateY(-2px); }
+  .gift img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #fbf8f5; border-radius: 12px; margin-bottom: 10px; }
+  .gift b { font-family: Fraunces, serif; font-size: 16px; line-height: 1.25; }
+  .gift .gp { margin-top: auto; padding-top: 8px; font-size: 14px; }
+  .gift .gp strong { color: var(--rose-dark); font-size: 18px; font-family: Fraunces, serif; }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+  .gallery figure { margin: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 8px 12px; box-shadow: var(--shadow); }
+  .gallery figure:nth-child(1) { transform: rotate(-1.5deg); }
+  .gallery figure:nth-child(2) { transform: rotate(1.5deg); }
+  .gallery figure:nth-child(3) { transform: rotate(-1deg); }
+  .gallery .ph { width: 100%; aspect-ratio: 1; border-radius: 12px; background-image: url(img/cat-1.jpg); background-repeat: no-repeat; }
+  .gallery figure:nth-child(1) .ph { aspect-ratio: auto; height: 100%; min-height: 260px; background-size: cover; background-position: 50% 35%; }
+  .gallery figure:nth-child(2) .ph { background-size: 230%; background-position: 32% 37%; }
+  .gallery figure:nth-child(3) .ph { background-size: 190%; background-position: 50% 52%; }
+  .gallery figcaption { font-size: 13px; text-align: center; color: var(--muted); margin-top: 8px; font-style: italic; }
+  .gallery figure:nth-child(1) { display: flex; flex-direction: column; }
+  .gallery figure:nth-child(1) .ph { flex: 1; }
+  td .same { color: var(--muted); }
+  @media (max-width: 760px) {
+    .banner { margin-top: 60px; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .gallery figure:nth-child(1) { grid-column: 1 / -1; }
+    .gallery figure:nth-child(1) .ph { min-height: 300px; }
+  }
 </style>
 </head>
 <body>
+<script>try{if(localStorage.getItem('pc-mode')==='basic')document.body.classList.add('basic')}catch(e){}</script>
+<div class="mode-switch" role="group" aria-label="Page view">
+  <button type="button" data-mode="basic" aria-pressed="false">Basic</button>
+  <button type="button" data-mode="details" aria-pressed="true">Details</button>
+</div>
 <div class="wrap">
+
+  <div class="banner" id="freshness" data-d role="status">
+    <span aria-hidden="true">⏳</span>
+    <span id="freshness-text"><b>Black Friday prices, checked Monday 23 November 2026.</b> Sales like this usually end after Cyber Monday (30 Nov), so double-check prices if you're buying after that.</span>
+  </div>
 
   <header class="hero">
     <div>
-      <span class="eyebrow">🛍️ Black Friday price check</span>
+      <span class="eyebrow">🛍️ Black Friday price check</span><span class="eyebrow xmas" data-d>🎄 Our Christmas haul</span>
       <h1>The beauty haul, <em>for less</em></h1>
       <p class="lead">I checked every UK shop for the cheapest price on our list. One shop wins on everything.</p>
       <a class="btn" href="#list" style="background:var(--plum);color:#fff">See the list ↓</a>
@@ -164,6 +221,13 @@
     <a class="btn" href="https://www.cultbeauty.co.uk/" target="_blank" rel="noopener">Go to Cult Beauty →</a>
   </section>
 
+  <section class="savings" data-d aria-label="How much we save">
+    <div class="label" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:600">How much we save</div>
+    <div class="big" id="saved" data-to="57.95">£57.95</div>
+    <p>That's about <b>38 bags of cat treats</b> (at roughly £1.50 a bag). Head of Quality Control has been informed.</p>
+    <div class="treats" aria-hidden="true">🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟</div>
+  </section>
+
   <section class="section" id="list">
     <div class="section-head">
       <h2>The list</h2>
@@ -173,6 +237,7 @@
     <div class="grid">
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/12505452-1485323089788559.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Ouai Medium Hair Shampoo bottle">
         <span class="tag">Ouai haircare</span>
         <h3>Medium Hair Shampoo</h3>
         <div class="size">300ml</div>
@@ -186,6 +251,7 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/12505453-1715323089832968.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Ouai Medium Hair Conditioner bottle">
         <span class="tag">Ouai haircare</span>
         <h3>Medium Hair Conditioner</h3>
         <div class="size">300ml</div>
@@ -199,6 +265,7 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/14023730-9095011523044614.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Ouai Anti-Dandruff Shampoo bottle">
         <span class="tag">Ouai haircare</span>
         <h3>Anti-Dandruff Shampoo</h3>
         <div class="size">300ml</div>
@@ -212,6 +279,7 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/12560959-2055085924561330.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Ouai Detox Shampoo bottle">
         <span class="tag">Ouai haircare</span>
         <h3>Detox Shampoo</h3>
         <div class="size">300ml</div>
@@ -225,6 +293,7 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/13322272-3555255641175298.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Summer Fridays Lip Butter Balm">
         <span class="tag lips">Lips</span>
         <h3>Summer Fridays</h3>
         <div class="size">Pick whichever one you meant</div>
@@ -233,6 +302,19 @@
           <a href="https://www.cultbeauty.co.uk/p/summer-fridays-dream-lip-oil-4.5ml-various-shades/15057581/" target="_blank" rel="noopener"><b>£18.20</b>Dream Lip Oil<br><span>4.5ml · was £26</span></a>
         </div>
         <p class="where">both at <b>Cult Beauty</b> (−30%)</p>
+        <div class="shade" data-d>
+          <label for="pick-sf">Her pick</label>
+          <select id="pick-sf" data-pick="sf">
+            <option value="">Choose a flavour or shade…</option>
+            <optgroup label="Lip Butter Balm · £16.10">
+              <option>Balm – Vanilla</option><option>Balm – Vanilla Beige</option><option>Balm – Brown Sugar</option><option>Balm – Pink Sugar</option><option>Balm – Cherry</option><option>Balm – Poppy</option><option>Balm – Sweet Mint</option><option>Balm – Iced Coffee</option><option>Balm – Pink Guava</option><option>Balm – Toasted Marshmallow</option><option>Balm – Strawberry Soft Serve</option><option>Balm – Mocha Bonbon</option><option>Balm – Sugar Plum</option>
+            </optgroup>
+            <optgroup label="Dream Lip Oil · £18.20">
+              <option>Lip Oil – Pink Cloud</option><option>Lip Oil – Blush Dreams</option><option>Lip Oil – Warm Beige</option><option>Lip Oil – Midnight Berry</option><option disabled>Lip Oil – Rosewood Nights (sold out)</option><option disabled>Lip Oil – Soft Mauve (sold out)</option><option disabled>Lip Oil – Bare Sand (sold out)</option><option disabled>Lip Oil – Rose Bud (sold out)</option>
+            </optgroup>
+          </select>
+          <div class="picked" aria-live="polite"></div>
+        </div>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/lip-butter-balm-MUK200031226.html" target="_blank" rel="noopener">Space NK – Balm</a><span class="p">£16.10</span></li>
           <li><a href="https://www.spacenk.com/uk/makeup/lips/lip-gloss/dream-lip-oil-MUK200041108.html" target="_blank" rel="noopener">Space NK – Lip Oil</a><span class="p">£18.20</span></li>
@@ -241,11 +323,20 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/14887425-1105305150246110.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Ole Henriksen Pout Preserve lip treatment">
         <span class="tag lips">Lips</span>
         <h3>Ole Henriksen Pout Preserve</h3>
         <div class="size">Peptide lip treatment (the glossy one) · 12ml</div>
         <div class="price-row"><span class="price">£12.75</span><span class="rrp"><s>£17</s></span><span class="save">−25%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ole-henriksen-pout-preserve-peptide-lip-treatment-citrus-sunshine-original-12ml/14887425/" target="_blank" rel="noopener">Cult Beauty</a></p>
+        <div class="shade" data-d>
+          <label for="pick-ole">Her pick</label>
+          <select id="pick-ole" data-pick="ole">
+            <option value="">Choose a flavour…</option>
+            <option>Vanilla Bonbon – £11.90</option><option>Citrus Sunshine (original) – £12.75</option><option>Strawberry Sorbet – £12.75</option><option>Cocoa Crème – £12.75</option><option>Crème Brûlée – £12.75</option><option>Crème Brûlée Glimmer – £12.75</option><option>Scandi Candy – £13.50</option><option>Chai Drizzle – £13.50</option><option>Sweet Macaron – £13.50</option><option disabled>Peach Glaze (sold out)</option><option disabled>Citrus Sunshine Glimmer (sold out)</option><option disabled>Lingonberry Jam Glimmer (sold out)</option>
+          </select>
+          <div class="picked" aria-live="polite"></div>
+        </div>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/pout-preserve-peptide-lip-treatment-MUK200053977.html" target="_blank" rel="noopener">Space NK</a><span class="p">£13.50</span></li>
           <li><a href="https://www.sephora.co.uk/p/olehenriksen-pout-preserve-hydrating-peptide-lip-treatment" target="_blank" rel="noopener">Sephora UK</a><span class="p">£14.40</span></li>
@@ -254,6 +345,7 @@
       </article>
 
       <article class="card">
+        <img class="pimg" data-d loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17904408-2075359344419481.jpg&amp;format=webp&amp;width=500&amp;height=500&amp;fit=cover" alt="Living Proof Clean + Soft dry shampoo set">
         <span class="tag dry">Dry shampoo</span>
         <h3>Living Proof Clean + Soft Set</h3>
         <div class="size">Double pack · 2 × 198ml Advanced Clean Dry Shampoo</div>
@@ -322,6 +414,67 @@
     </div>
   </section>
 
+  <section class="section" data-d>
+    <div class="section-head">
+      <h2>Christmas gift ideas 🎁</h2>
+      <p>Gift sets from the same brands, also on offer at Cult Beauty.</p>
+    </div>
+    <div class="gifts">
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/ouai-get-on-your-merry-kit/17889347/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17889347-1335354385310821.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Ouai Get On Your Merry Kit">
+        <b>Ouai Get On Your Merry Kit</b><span style="font-size:13px;color:var(--muted)">3 travel-size favourites</span>
+        <span class="gp"><strong>£24.50</strong> <s>£35</s> · worth £42</span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/ouai-healthy-hair-for-the-holidays-kit/17889345/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17889345-2135354386053774.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Ouai Healthy Hair For The Holidays Kit">
+        <b>Ouai Healthy Hair For The Holidays</b><span style="font-size:13px;color:var(--muted)">2 bestsellers</span>
+        <span class="gp"><strong>£28.70</strong> <s>£41</s> · worth £56</span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/summer-fridays-the-lip-butter-balm-minis/17905153/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17905153-2075368923656820.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Summer Fridays Lip Butter Balm Minis">
+        <b>Summer Fridays Lip Butter Balm Minis</b><span style="font-size:13px;color:var(--muted)">4 limited-edition minis</span>
+        <span class="gp"><strong>£16.10</strong> <s>£23</s></span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/summer-fridays-jet-lag-essentials-set/15960356/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/15960356-2135221955808348.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Summer Fridays Jet Lag Essentials Set">
+        <b>Summer Fridays Jet Lag Essentials</b><span style="font-size:13px;color:var(--muted)">5-piece skincare set</span>
+        <span class="gp"><strong>£24.50</strong> <s>£35</s> · worth £45</span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/ole-henriksen-peptide-patisserie-pout-lip-duo/17958695/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17958695-6075361906345717.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Ole Henriksen Peptide Patisserie Pout Lip Duo">
+        <b>Ole Henriksen Patisserie Pout Duo</b><span style="font-size:13px;color:var(--muted)">2 full-size Pout Preserves</span>
+        <span class="gp"><strong>£18.75</strong> <s>£25</s> · worth £36</span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/ole-henriksen-pout-petities-mini-lip-trio/17958692/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/17958692-7455361910439826.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Ole Henriksen Pout Petites Mini Lip Trio">
+        <b>Ole Henriksen Pout Petites Trio</b><span style="font-size:13px;color:var(--muted)">3 mini lip treatments</span>
+        <span class="gp"><strong>£17.25</strong> <s>£23</s> · worth £31</span></a>
+      <a class="gift" href="https://www.cultbeauty.co.uk/p/living-proof-perfect-hair-day-shampoo-and-conditioner-bundle-for-hydration-softness-and-shine/16242241/" target="_blank" rel="noopener">
+        <img loading="lazy" src="https://main.thgimages.com/?url=https://static.thcdn.com/productimg/original/16242241-4855223834722499.jpg&amp;format=webp&amp;width=400&amp;height=400&amp;fit=cover" alt="Living Proof Perfect Hair Day Shampoo and Conditioner Bundle">
+        <b>Living Proof Perfect Hair Day Duo</b><span style="font-size:13px;color:var(--muted)">Shampoo + conditioner</span>
+        <span class="gp"><strong>£36.40</strong> <s>£52</s> · worth £58</span></a>
+    </div>
+  </section>
+
+  <section class="section" data-d>
+    <div class="section-head">
+      <h2>Price history</h2>
+      <p>Every time the prices get rechecked, a new column goes here.</p>
+    </div>
+    <div class="table-card">
+      <div class="scroll"><table>
+        <thead><tr><th>Item (Cult Beauty)</th><th class="num">Normal price</th><th class="num">23 Nov, morning</th><th class="num">23 Nov, afternoon</th></tr></thead>
+        <tbody>
+          <tr><td>Ouai Medium Shampoo 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
+          <tr><td>Ouai Medium Conditioner 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
+          <tr><td>Ouai Anti-Dandruff 300ml</td><td class="num">£34.00</td><td class="num">£23.80</td><td class="num">£23.80 <span class="same">=</span></td></tr>
+          <tr><td>Ouai Detox 300ml</td><td class="num">£30.00</td><td class="num">£21.00</td><td class="num">£21.00 <span class="same">=</span></td></tr>
+          <tr><td>Summer Fridays Lip Butter Balm</td><td class="num">£23.00</td><td class="num">£16.10</td><td class="num">£16.10 <span class="same">=</span></td></tr>
+          <tr><td>Summer Fridays Dream Lip Oil</td><td class="num">£26.00</td><td class="num">£18.20</td><td class="num">£18.20 <span class="same">=</span></td></tr>
+          <tr><td>Ole Henriksen Pout Preserve</td><td class="num">£17.00</td><td class="num">£12.75</td><td class="num">£12.75 <span class="same">=</span></td></tr>
+          <tr><td>Living Proof Clean + Soft Set</td><td class="num">£36.00</td><td class="num">£25.20</td><td class="num">£25.20 <span class="same">=</span></td></tr>
+          <tr class="best"><td>Whole list (with Lip Butter Balm)</td><td class="num">£196.00</td><td class="num">£138.05</td><td class="num">£138.05</td></tr>
+        </tbody>
+      </table></div>
+      <p class="sub" style="padding-top:12px">No changes so far today. Next recheck: on the day we order.</p>
+    </div>
+  </section>
+
   <section class="section">
     <div class="section-head"><h2>Good to know</h2></div>
     <div class="tips">
@@ -332,11 +485,77 @@
     </div>
   </section>
 
+  <section class="section" data-d>
+    <div class="section-head">
+      <h2>Meet Quality Control</h2>
+      <p>The real reason this page exists.</p>
+    </div>
+    <div class="gallery">
+      <figure><div class="ph" role="img" aria-label="Our cat sitting proudly"></div><figcaption>Reviewing the shortlist</figcaption></figure>
+      <figure><div class="ph" role="img" aria-label="Close-up of our cat's eyes"></div><figcaption>"You paid full price?"</figcaption></figure>
+      <figure><div class="ph" role="img" aria-label="Close-up of our cat's nose and whiskers"></div><figcaption>Sniff test: passed</figcaption></figure>
+    </div>
+  </section>
+
   <footer>
     <img src="img/cat-1.jpg" alt="" aria-hidden="true">
     <div>Prices checked on Monday 23 November 2026 at Cult Beauty, Space NK, LookFantastic, Sephora UK, Boots, Ouai UK and Amazon UK. Black Friday prices change quickly, so check before buying.</div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  // Details / Basic switch
+  var buttons = document.querySelectorAll('.mode-switch button');
+  function setMode(mode) {
+    document.body.classList.toggle('basic', mode === 'basic');
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mode === mode)); });
+    store.set('pc-mode', mode);
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+  setMode(store.get('pc-mode') === 'basic' ? 'basic' : 'details');
+
+  // Freshness warning: turns red once the Black Friday weekend is over
+  var saleEnd = new Date('2026-12-01T00:00:00');
+  if (new Date() >= saleEnd) {
+    document.getElementById('freshness').classList.add('stale');
+    document.getElementById('freshness-text').innerHTML =
+      '<b>Heads up: these prices are from 23 November 2026, before Black Friday ended.</b> They have probably gone back up, so check the shop before buying.';
+  }
+
+  // "Her pick" shade choosers, remembered on this device
+  document.querySelectorAll('select[data-pick]').forEach(function (sel) {
+    var key = 'pc-pick-' + sel.dataset.pick;
+    var out = sel.parentNode.querySelector('.picked');
+    function show() { out.textContent = sel.value ? '✓ ' + sel.value : ''; }
+    var saved = store.get(key);
+    if (saved) sel.value = saved;
+    show();
+    sel.addEventListener('change', function () { store.set(key, sel.value); show(); });
+  });
+
+  // Count-up for the savings number when it scrolls into view
+  var el = document.getElementById('saved');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (el && 'IntersectionObserver' in window && !reduce) {
+    var target = parseFloat(el.dataset.to), done = false;
+    new IntersectionObserver(function (entries, obs) {
+      if (done || !entries[0].isIntersecting) return;
+      done = true; obs.disconnect();
+      var start = performance.now(), dur = 1200;
+      (function tick(now) {
+        var t = Math.min(1, (now - start) / dur), eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = '£' + (target * eased).toFixed(2);
+        if (t < 1) requestAnimationFrame(tick);
+      })(start);
+    }, { threshold: 0.6 }).observe(el);
+  }
+})();
+</script>
 </body>
 </html>
