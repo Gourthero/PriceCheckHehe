@@ -207,6 +207,14 @@
   .k-b { background: var(--sage-deep); } .k-p { background: var(--blush-deep); }
   .blegend b { color: var(--plum); }
 
+
+  /* Live sync status */
+  .sync { flex-basis: 100%; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .sync[hidden] { display: none; }
+  .sync .dot { width: 9px; height: 9px; border-radius: 50%; background: #c9b8bf; }
+  .sync.on .dot { background: #3c9a52; box-shadow: 0 0 0 3px rgba(60,154,82,.18); }
+  .sync.off .dot { background: #d08a2b; }
+
   /* Christmas snow */
   #snow { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
   body.basic #snow { display: none; }
@@ -296,6 +304,7 @@
       <h2>The list</h2>
       <p>Best price first, then the other places I checked.</p>
       <div class="progress" data-d><span id="prog-text">0 of 7 bought</span><span class="bar"><span id="prog-bar"></span></span></div>
+      <div class="sync" data-d id="sync" hidden><span class="dot"></span><span id="sync-text">Connecting…</span></div>
     </div>
 
     <div class="grid">
@@ -732,7 +741,9 @@
     document.getElementById('wish-empty').hidden = wishes.length > 0;
     document.getElementById('wish-actions').hidden = wishes.length === 0;
   }
-  function saveWishes() { store.set('pc-wishes', JSON.stringify(wishes)); renderWishes(); }
+  function saveWishes() { store.set('pc-wishes', JSON.stringify(wishes)); renderWishes(); if (window.PC_onWishes) window.PC_onWishes(wishes.slice()); }
+  window.PC_setWishes = function (arr) { wishes = (arr || []).filter(function (w) { return typeof w === 'string'; }); store.set('pc-wishes', JSON.stringify(wishes)); renderWishes(); };
+  window.PC_getWishes = function () { return wishes.slice(); };
   document.getElementById('wish-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var v = wi.value.trim();
@@ -765,6 +776,82 @@
     }, { threshold: 0.6 }).observe(el);
   }
 })();
+</script>
+<script type="module">
+// ===== Live sync between phones (Firebase Realtime Database) =====
+// Fill this in with the web app config from the Firebase console to switch sync on.
+const FIREBASE_CONFIG = null;
+
+const box = document.getElementById('sync'), txt = document.getElementById('sync-text');
+function status(state, msg) { box.hidden = false; box.className = 'sync ' + state; txt.textContent = msg; }
+
+if (FIREBASE_CONFIG) {
+  status('', 'Connecting…');
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const { getDatabase, ref, onValue, set } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
+    const db = getDatabase(initializeApp(FIREBASE_CONFIG));
+    const root = 'pricecheck';
+    let applying = false;
+
+    // Connection indicator
+    onValue(ref(db, '.info/connected'), snap => {
+      if (snap.val()) status('on', 'Live: changes show on both phones');
+      else status('off', 'Offline: changes will sync when back online');
+    });
+
+    // Local -> shared
+    document.querySelectorAll('input[data-tick]').forEach(t => t.addEventListener('change', () => {
+      if (!applying) set(ref(db, root + '/got/' + t.dataset.tick), t.checked);
+    }));
+    document.querySelectorAll('select[data-pick]').forEach(sel => sel.addEventListener('change', () => {
+      if (!applying) set(ref(db, root + '/picks/' + sel.dataset.pick), sel.value);
+    }));
+    const budgetIn = document.getElementById('budget');
+    let bTimer;
+    budgetIn.addEventListener('input', () => {
+      if (applying) return;
+      clearTimeout(bTimer);
+      bTimer = setTimeout(() => { const v = parseFloat(budgetIn.value); if (v >= 0) set(ref(db, root + '/budget'), v); }, 500);
+    });
+    window.PC_onWishes = list => { if (!applying) set(ref(db, root + '/wishes'), list); };
+
+    // Shared -> local
+    let first = true;
+    onValue(ref(db, root), snap => {
+      const data = snap.val();
+      if (!data && first) {
+        // First phone to connect: upload what this phone already has
+        first = false;
+        const got = {}, picks = {};
+        document.querySelectorAll('input[data-tick]').forEach(t => got[t.dataset.tick] = t.checked);
+        document.querySelectorAll('select[data-pick]').forEach(s => picks[s.dataset.pick] = s.value);
+        set(ref(db, root), { got, picks, budget: parseFloat(budgetIn.value) || 150, wishes: window.PC_getWishes() });
+        return;
+      }
+      first = false;
+      if (!data) return;
+      applying = true;
+      try {
+        document.querySelectorAll('input[data-tick]').forEach(t => {
+          const v = !!(data.got && data.got[t.dataset.tick]);
+          if (t.checked !== v) { t.checked = v; t.dispatchEvent(new Event('change')); }
+        });
+        document.querySelectorAll('select[data-pick]').forEach(sel => {
+          const v = (data.picks && data.picks[sel.dataset.pick]) || '';
+          if (sel.value !== v) { sel.value = v; sel.dispatchEvent(new Event('change')); }
+        });
+        if (typeof data.budget === 'number' && document.activeElement !== budgetIn && parseFloat(budgetIn.value) !== data.budget) {
+          budgetIn.value = data.budget; budgetIn.dispatchEvent(new Event('input'));
+        }
+        const remote = Array.isArray(data.wishes) ? data.wishes : Object.values(data.wishes || {});
+        if (JSON.stringify(remote) !== JSON.stringify(window.PC_getWishes())) window.PC_setWishes(remote);
+      } finally { applying = false; }
+    }, () => status('off', 'Sync unavailable: saved on this phone only'));
+  } catch (e) {
+    status('off', 'Sync unavailable: saved on this phone only');
+  }
+}
 </script>
 </body>
 </html>
