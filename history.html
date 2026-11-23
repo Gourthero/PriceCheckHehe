@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price history – The Black Friday Beauty Haul</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fbf6f0; --paper: #ffffff; --blush: #f4d9d0; --blush-deep: #e8b4a6;
+    --rose: #b5566b; --rose-dark: #8e3b50; --plum: #3b2230; --muted: #7a6670;
+    --sage: #dfe8dc; --sage-deep: #4f6b4a; --line: #eadfd8; --grid: #f1e9e4;
+    --shadow: 0 1px 2px rgba(59,34,48,.06), 0 8px 24px rgba(59,34,48,.07);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--plum); background: var(--cream); line-height: 1.5; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px 48px; }
+  h1, h2 { font-family: Fraunces, Georgia, serif; margin: 0; line-height: 1.15; }
+  header { padding: 22px 0 8px; }
+  .back { display: inline-block; font-size: 14px; font-weight: 600; color: var(--rose-dark); text-decoration: none; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; }
+  .back:hover { background: #fff7f4; }
+  header h1 { font-size: clamp(30px, 5vw, 44px); margin: 18px 0 6px; }
+  header p { margin: 0; color: var(--muted); max-width: 60ch; }
+  .meta { font-size: 13px; color: var(--muted); margin: 10px 0 24px; }
+  .group { margin: 30px 0 14px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 16px 16px 12px; box-shadow: var(--shadow); }
+  .card h2 { font-size: 18px; }
+  .sub { font-size: 13px; color: var(--muted); margin: 2px 0 10px; }
+  .now { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .now b { font-family: Fraunces, serif; font-size: 28px; }
+  .chg { font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 8px; background: var(--grid); color: var(--muted); }
+  .chg.down { background: #eaf5ec; color: #2f6b3a; }
+  .chg.up { background: #fdecef; color: var(--rose-dark); }
+  .chart { position: relative; margin: 10px 0 4px; height: 150px; touch-action: pan-y; }
+  .chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .tip { position: absolute; pointer-events: none; background: var(--plum); color: #fff; font-size: 12px; padding: 6px 9px; border-radius: 8px; white-space: nowrap; transform: translate(-50%, -100%); margin-top: -10px; opacity: 0; transition: opacity .1s; }
+  .tip b { font-size: 13px; }
+  .one { font-size: 13px; color: var(--muted); padding: 30px 0; text-align: center; }
+  details { margin-top: 6px; font-size: 13px; }
+  summary { cursor: pointer; color: var(--rose-dark); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  th, td { text-align: left; padding: 5px 4px; border-top: 1px solid var(--line); }
+  th { font-weight: 600; color: var(--muted); font-size: 12px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .empty { color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">← Back to the list</a>
+    <h1>Price history</h1>
+    <p>Every price the automatic checks have found, item by item. Hover or tap a chart to see each check.</p>
+    <div class="meta" id="meta">Loading…</div>
+  </header>
+  <div id="out"></div>
+</div>
+
+<script>
+(function () {
+  var DB = 'https://pricecheckhehe-default-rtdb.europe-west1.firebasedatabase.app/pricecheck';
+  var ITEMS = [
+    ['medSh', 'Ouai Medium Hair Shampoo', '300ml · Cult Beauty'],
+    ['medCo', 'Ouai Medium Hair Conditioner', '300ml · Cult Beauty'],
+    ['dand', 'Ouai Anti-Dandruff Shampoo', '300ml · Cult Beauty'],
+    ['detox', 'Ouai Detox Shampoo', '300ml · Cult Beauty'],
+    ['sfBalm', 'Summer Fridays Lip Butter Balm', '15g · Cult Beauty'],
+    ['sfOil', 'Summer Fridays Dream Lip Oil', '4.5ml · Cult Beauty'],
+    ['ole', 'Ole Henriksen Pout Preserve', '12ml · Cult Beauty'],
+    ['lp', 'Living Proof Clean + Soft Set', '2 × 198ml · Cult Beauty']
+  ];
+  var RRP = { medSh: 28, medCo: 28, dand: 34, detox: 30, sfBalm: 23, sfOil: 26, ole: 17, lp: 36 };
+
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function gbp(n) { return '£' + Number(n).toFixed(2); }
+  function when(t, short) {
+    var d = new Date(t);
+    var day = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    var time = d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' });
+    return short ? day + ' ' + time : d.toLocaleDateString('en-GB', { weekday: 'short' }) + ' ' + day + ', ' + time;
+  }
+  function points(obj) {
+    return Object.keys(obj || {}).map(function (k) { return obj[k]; })
+      .filter(function (p) { return p && typeof p.price === 'number' && typeof p.t === 'number'; })
+      .sort(function (a, b) { return a.t - b.t; });
+  }
+
+  // One small single-series line chart per item (no legend needed: the card title names it)
+  function drawChart(box, pts, rrp) {
+    var W = box.clientWidth || 300, H = box.clientHeight || 150;
+    var L = 46, R = 10, T = 12, B = 22, iw = W - L - R, ih = H - T - B;
+    var prices = pts.map(function (p) { return p.price; });
+    var lo = Math.min.apply(null, prices), hi = Math.max.apply(null, prices);
+    if (rrp) hi = Math.max(hi, rrp);
+    var pad = Math.max((hi - lo) * 0.15, hi * 0.04, 0.5); lo = Math.max(0, lo - pad); hi = hi + pad;
+    var t0 = pts[0].t, t1 = pts[pts.length - 1].t; if (t1 === t0) t1 = t0 + 1;
+    function x(t) { return L + (t - t0) / (t1 - t0) * iw; }
+    function y(v) { return T + (1 - (v - lo) / (hi - lo)) * ih; }
+    var ticks = [lo + (hi - lo) * 0.1, (lo + hi) / 2, hi - (hi - lo) * 0.1];
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Price over time">';
+    ticks.forEach(function (v) {
+      s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--grid)" stroke-width="1"/>' +
+           '<text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="var(--muted)">' + gbp(v).replace('.00', '') + '</text>';
+    });
+    if (rrp) s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(rrp) + '" y2="' + y(rrp) + '" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 4"/>' +
+                  '<text x="' + (W - R) + '" y="' + (y(rrp) - 5) + '" text-anchor="end" font-size="11" fill="var(--muted)">normal price ' + gbp(rrp) + '</text>';
+    // step line: a price holds until the next check
+    var d = '';
+    pts.forEach(function (p, i) {
+      d += (i ? ' H' + x(p.t).toFixed(1) + ' V' : 'M' + x(p.t).toFixed(1) + ' ') + (i ? y(p.price).toFixed(1) : y(p.price).toFixed(1));
+    });
+    s += '<path d="' + d + '" fill="none" stroke="var(--rose-dark)" stroke-width="2" stroke-linejoin="round"/>';
+    var last = pts[pts.length - 1];
+    s += '<circle cx="' + x(last.t) + '" cy="' + y(last.price) + '" r="4.5" fill="var(--rose-dark)" stroke="var(--paper)" stroke-width="2"/>';
+    s += '<text x="' + L + '" y="' + (H - 4) + '" font-size="11" fill="var(--muted)">' + esc(when(t0, true)) + '</text>' +
+         '<text x="' + (W - R) + '" y="' + (H - 4) + '" text-anchor="end" font-size="11" fill="var(--muted)">' + esc(when(pts[pts.length - 1].t, true)) + '</text>';
+    s += '<line class="xh" x1="0" x2="0" y1="' + T + '" y2="' + (T + ih) + '" stroke="var(--muted)" stroke-width="1" opacity="0"/>' +
+         '<circle class="hd" r="5" fill="var(--rose-dark)" stroke="var(--paper)" stroke-width="2" opacity="0"/>';
+    s += '<rect x="' + L + '" y="0" width="' + iw + '" height="' + H + '" fill="transparent"/></svg><div class="tip"></div>';
+    box.innerHTML = s;
+
+    var svg = box.querySelector('svg'), xh = box.querySelector('.xh'), hd = box.querySelector('.hd'), tip = box.querySelector('.tip');
+    function show(clientX) {
+      var r = svg.getBoundingClientRect(), mx = clientX - r.left, best = 0, bd = Infinity;
+      pts.forEach(function (p, i) { var dd = Math.abs(x(p.t) - mx); if (dd < bd) { bd = dd; best = i; } });
+      var p = pts[best], px = x(p.t), py = y(p.price);
+      xh.setAttribute('x1', px); xh.setAttribute('x2', px); xh.setAttribute('opacity', '.5');
+      hd.setAttribute('cx', px); hd.setAttribute('cy', py); hd.setAttribute('opacity', '1');
+      tip.innerHTML = '<b>' + gbp(p.price) + '</b> · ' + esc(p.shop || '') + (p.inStock === false ? ' · out of stock' : '') +
+        (typeof p.cheaper === 'number' ? '<br>cheaper at ' + esc(p.cheaperShop) + ': ' + gbp(p.cheaper) : '') + '<br>' + esc(when(p.t));
+      tip.style.left = Math.min(Math.max(px, 70), W - 70) + 'px'; tip.style.top = py + 'px'; tip.style.opacity = '1';
+    }
+    function hide() { xh.setAttribute('opacity', '0'); hd.setAttribute('opacity', '0'); tip.style.opacity = '0'; }
+    svg.addEventListener('pointermove', function (e) { show(e.clientX); });
+    svg.addEventListener('pointerdown', function (e) { show(e.clientX); });
+    svg.addEventListener('pointerleave', hide);
+  }
+
+  function card(key, title, sub, pts, rrp) {
+    var el = document.createElement('article'); el.className = 'card';
+    if (!pts.length) { el.innerHTML = '<h2>' + esc(title) + '</h2><div class="sub">' + esc(sub) + '</div><p class="empty">No checks yet.</p>'; return el; }
+    var first = pts[0], last = pts[pts.length - 1], diff = last.price - first.price;
+    var chg = Math.abs(diff) < 0.01 ? '<span class="chg">no change</span>'
+      : '<span class="chg ' + (diff < 0 ? 'down' : 'up') + '">' + (diff < 0 ? '⬇ ' : '⬆ ') + gbp(Math.abs(diff)) + ' since ' + esc(when(first.t, true)) + '</span>';
+    var low = Math.min.apply(null, pts.map(function (p) { return p.price; }));
+    el.innerHTML = '<h2>' + esc(title) + '</h2><div class="sub">' + esc(sub) + ' · ' + pts.length + ' check' + (pts.length === 1 ? '' : 's') + ' · lowest ' + gbp(low) + '</div>' +
+      '<div class="now"><b>' + gbp(last.price) + '</b>' + chg + '</div>' +
+      '<div class="chart"></div>' +
+      '<details><summary>Show every check</summary><table><thead><tr><th>When</th><th>Shop</th><th class="num">Price</th></tr></thead><tbody>' +
+      pts.slice().reverse().map(function (p) {
+        return '<tr><td>' + esc(when(p.t, true)) + '</td><td>' + esc(p.shop || '') + (p.inStock === false ? ' (out of stock)' : '') +
+          (typeof p.cheaper === 'number' ? '<br><span class="empty">cheaper at ' + esc(p.cheaperShop) + ' ' + gbp(p.cheaper) + '</span>' : '') +
+          '</td><td class="num">' + gbp(p.price) + '</td></tr>';
+      }).join('') + '</tbody></table></details>';
+    var box = el.querySelector('.chart');
+    if (pts.length < 2) box.outerHTML = '<p class="one">Only one check so far: the chart starts after the next one.</p>';
+    else requestAnimationFrame(function () { drawChart(box, pts, rrp); });
+    el._redraw = pts.length >= 2 ? function () { drawChart(el.querySelector('.chart'), pts, rrp); } : null;
+    return el;
+  }
+
+  var cards = [];
+  function render(history, requests) {
+    var out = document.getElementById('out'); out.innerHTML = ''; cards = [];
+    var total = 0, latest = 0;
+    function section(label, list) {
+      if (!list.length) return;
+      var h = document.createElement('div'); h.className = 'group'; h.textContent = label; out.appendChild(h);
+      var g = document.createElement('div'); g.className = 'grid'; out.appendChild(g);
+      list.forEach(function (c) { g.appendChild(c); cards.push(c); });
+    }
+    section('The list', ITEMS.map(function (it) {
+      var pts = points(history[it[0]]); total += pts.length;
+      if (pts.length) latest = Math.max(latest, pts[pts.length - 1].t);
+      return card(it[0], it[1], it[2], pts, RRP[it[0]]);
+    }));
+    var reqCards = [];
+    Object.keys(requests || {}).forEach(function (id) {
+      var r = requests[id], x = r.result || {}, pts = points(history['req_' + id]);
+      if (r.status !== 'done' && !pts.length) return;
+      total += pts.length; if (pts.length) latest = Math.max(latest, pts[pts.length - 1].t);
+      reqCards.push(card('req_' + id, x.product || r.text, (x.size ? x.size + ' · ' : '') + 'requested', pts, typeof (x.best || {}).rrp === 'number' ? x.best.rrp : null));
+    });
+    section('Requested items', reqCards);
+    document.getElementById('meta').textContent = total + ' price checks saved' + (latest ? ' · latest ' + when(latest) : '') + ' · updates automatically';
+  }
+
+  function load() {
+    Promise.all([
+      fetch(DB + '/history.json', { cache: 'no-store' }).then(function (r) { return r.json(); }),
+      fetch(DB + '/requests.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
+    ]).then(function (res) { render(res[0] || {}, res[1] || {}); })
+      .catch(function () { document.getElementById('meta').textContent = 'Could not load the history right now. Try again in a minute.'; });
+  }
+  load();
+  setInterval(load, 5 * 60 * 1000);
+  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { cards.forEach(function (c) { if (c._redraw) c._redraw(); }); }, 150); });
+})();
+</script>
+</body>
+</html>

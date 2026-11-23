@@ -139,6 +139,8 @@
   .mode-switch { position: absolute; top: 12px; right: 12px; z-index: 50; display: flex; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); border: 1px solid var(--line); border-radius: 999px; padding: 4px; box-shadow: var(--shadow); font-size: 13px; font-weight: 600; }
   .mode-switch button { font: inherit; border: 0; background: transparent; color: var(--muted); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
   .mode-switch button[aria-pressed="true"] { background: var(--plum); color: #fff; }
+  .mode-switch .hist-link { color: var(--rose-dark); text-decoration: none; padding: 7px 12px; border-radius: 999px; border-left: 1px solid var(--line); margin-left: 2px; }
+  .mode-switch .hist-link:hover { background: #fff7f4; }
 
   /* Details-only pieces */
   .banner { margin: 64px 0 0; border-radius: 14px; padding: 12px 16px; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; border: 1px solid #ecd9b4; background: #fdf5e6; }
@@ -263,6 +265,7 @@
   @media (max-width: 760px) {
     .mode-switch { top: 2px; right: 10px; padding: 2px; font-size: 11px; line-height: 1; box-shadow: 0 1px 4px rgba(59,34,48,.08); }
     .mode-switch button { padding: 4px 11px; }
+    .mode-switch .hist-link { padding: 4px 10px; }
     .banner { margin-top: 40px; }
     .gallery { grid-template-columns: 1fr 1fr; }
     .gallery figure:nth-child(1) { grid-column: 1 / -1; }
@@ -275,6 +278,7 @@
 <div class="mode-switch" role="group" aria-label="Page view">
   <button type="button" data-mode="basic" aria-pressed="false">Basic</button>
   <button type="button" data-mode="details" aria-pressed="true">Details</button>
+  <a class="hist-link" href="history.html">📈 History</a>
 </div>
 <div class="wrap">
 
