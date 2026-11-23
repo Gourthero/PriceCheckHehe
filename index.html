@@ -489,7 +489,7 @@
   <section class="section" data-d id="requests" hidden>
     <div class="section-head">
       <h2>Ask for a price check 🔎</h2>
-      <p>Type anything you'd like priced up. It gets checked automatically, usually within 10 minutes, and appears here.</p>
+      <p>Type anything you'd like priced up. It gets checked automatically, usually within 15–20 minutes, and appears here.</p>
     </div>
     <div class="wish req-box">
       <form id="req-form" autocomplete="off">
@@ -847,14 +847,14 @@ if (FIREBASE_CONFIG) {
     });
     // Countdown to the next automatic check (the checker records each run)
     let lastRun = 0;
-    const EVERY = 5 * 60 * 1000;
+    const EVERY = 15 * 60 * 1000;
     onValue(ref(db, root + '/checker/lastRun'), s2 => { lastRun = s2.val() || 0; tickTimer(); });
     function tickTimer() {
       const el = document.getElementById('req-timer');
       if (!lastRun) { el.textContent = 'Waiting for the price checker to start…'; return; }
       const now = Date.now(), ago = Math.max(0, now - lastRun), left = lastRun + EVERY - now;
       const agoTxt = ago < 60000 ? 'just now' : Math.floor(ago / 60000) + ' min ago';
-      if (ago > 30 * 60 * 1000) { el.innerHTML = 'The price checker is paused (last ran ' + Math.floor(ago / 60000) + ' min ago). It runs while the Claude app is open on the PC.'; return; }
+      if (ago > 45 * 60 * 1000) { el.innerHTML = 'The price checker is paused (last ran ' + Math.floor(ago / 60000) + ' min ago). It runs while the Claude app is open on the PC.'; return; }
       if (left > 0) {
         const m = Math.floor(left / 60000), sec = Math.floor(left / 1000) % 60;
         el.innerHTML = 'Next price check in <b>' + m + ':' + String(sec).padStart(2, '0') + '</b> · last check ' + agoTxt;
