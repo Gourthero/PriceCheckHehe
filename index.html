@@ -189,6 +189,24 @@
   .progress .bar { flex: 1; max-width: 260px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
   .progress .bar span { display: block; height: 100%; width: 0; background: var(--sage-deep); border-radius: 99px; transition: width .3s ease; }
 
+
+  /* Budget bar */
+  .budget { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); margin: 0 0 22px; }
+  .budget-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .budget-msg { margin: 4px 0 0; font-family: Fraunces, serif; font-size: 22px; font-weight: 700; }
+  .budget-msg.over { color: #b3261e; }
+  .budget-input { display: flex; align-items: center; gap: 4px; font-family: Fraunces, serif; font-size: 22px; font-weight: 700; background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 6px 12px; }
+  .budget-input input { width: 90px; font: inherit; border: 0; background: transparent; color: var(--plum); }
+  .bbar { position: relative; height: 16px; border-radius: 99px; background: var(--line); overflow: hidden; margin: 16px 0 10px; }
+  .bbar span { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 99px; transition: width .3s ease; }
+  .bbar .planned { background: var(--blush-deep); z-index: 1; }
+  .bbar .bought { background: var(--sage-deep); z-index: 2; }
+  .bbar.over .planned { background: #e57373; }
+  .blegend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); }
+  .blegend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+  .k-b { background: var(--sage-deep); } .k-p { background: var(--blush-deep); }
+  .blegend b { color: var(--plum); }
+
   /* Christmas snow */
   #snow { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
   body.basic #snow { display: none; }
@@ -256,6 +274,16 @@
     <a class="btn" href="https://www.cultbeauty.co.uk/" target="_blank" rel="noopener">Go to Cult Beauty →</a>
   </section>
 
+  <section class="budget" data-d aria-label="Our budget">
+    <div class="budget-top">
+      <div><div class="label" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:600">Our budget</div>
+        <p id="budget-msg" class="budget-msg"></p></div>
+      <label class="budget-input">£<input type="number" id="budget" min="0" step="5" value="150" inputmode="decimal" aria-label="Budget in pounds"></label>
+    </div>
+    <div class="bbar" role="img" id="bbar-label"><span class="bought" id="bbar-bought"></span><span class="planned" id="bbar-planned"></span></div>
+    <div class="blegend"><span><i class="k-b"></i>Bought <b id="b-bought">£0.00</b></span><span><i class="k-p"></i>Still to buy <b id="b-left">£0.00</b></span><span>Planned total <b id="b-total">£0.00</b></span></div>
+  </section>
+
   <section class="savings" data-d aria-label="How much we save">
     <div class="label" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:600">How much we save</div>
     <div class="big" id="saved" data-to="57.95">£57.95</div>
@@ -280,7 +308,7 @@
         <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-shampoo-300ml/12505452/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="5 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span></span> <span class="vc-line">Smells lovely. Sat on the bottle for warmth. Approved.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="medSh"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="medSh" data-price="19.60"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
           <li><a href="https://theouai.co.uk/products/medium-hair-shampoo" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£21.00</span></li>
@@ -296,7 +324,7 @@
         <div class="price-row"><span class="price">£19.60</span><span class="rrp"><s>£28</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-medium-hair-conditioner-300ml/12505453/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Promising fluffiness. Would like some for own fur.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="medCo"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="medCo" data-price="19.60"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£19.60</span></li>
           <li><a href="https://theouai.co.uk/products/medium-hair-conditioner" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£21.00</span></li>
@@ -312,7 +340,7 @@
         <div class="price-row"><span class="price">£23.80</span><span class="rrp"><s>£34</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-anti-dandruff-shampoo-300ml/14023730/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Fewer flakes on the sofa means more sofa for me.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="dand"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="dand" data-price="23.80"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/haircare/shampoo/shampoo/anti-dandruff-shampoo-MUK200037253.html" target="_blank" rel="noopener">Space NK</a><span class="p">£23.80</span></li>
           <li><a href="https://theouai.co.uk/products/anti-dandruff-shampoo" target="_blank" rel="noopener">Ouai UK (own site)</a><span class="p">£25.50</span></li>
@@ -328,7 +356,7 @@
         <div class="price-row"><span class="price">£21.00</span><span class="rrp"><s>£30</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/ouai-detox-shampoo-300ml/12560959/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="3 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Suspicious of the word "detox". Allowed anyway.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="detox"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="detox" data-price="21.00"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/brands/o/ouai" target="_blank" rel="noopener">Space NK</a><span class="p">£21.00</span></li>
           <li><a href="https://www.lookfantastic.com/p/ouai-detox-shampoo-300ml/12560959/" target="_blank" rel="noopener">LookFantastic</a><span class="p">£21.00</span></li>
@@ -360,7 +388,7 @@
           <div class="picked" aria-live="polite"></div>
         </div>
         <div class="verdict-cat" data-d><span class="paws" aria-label="5 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span></span> <span class="vc-line">Batted the lid under the fridge. Highest honours.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="sf"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="sf" data-price="16.10"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/lip-butter-balm-MUK200031226.html" target="_blank" rel="noopener">Space NK – Balm</a><span class="p">£16.10</span></li>
           <li><a href="https://www.spacenk.com/uk/makeup/lips/lip-gloss/dream-lip-oil-MUK200041108.html" target="_blank" rel="noopener">Space NK – Lip Oil</a><span class="p">£18.20</span></li>
@@ -384,7 +412,7 @@
           <div class="picked" aria-live="polite"></div>
         </div>
         <div class="verdict-cat" data-d><span class="paws" aria-label="4 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Too shiny to be trusted, but the price is right.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="ole"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="ole" data-price="12.75"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/skincare/lipcare/lip-balm/pout-preserve-peptide-lip-treatment-MUK200053977.html" target="_blank" rel="noopener">Space NK</a><span class="p">£13.50</span></li>
           <li><a href="https://www.sephora.co.uk/p/olehenriksen-pout-preserve-hydrating-peptide-lip-treatment" target="_blank" rel="noopener">Sephora UK</a><span class="p">£14.40</span></li>
@@ -400,7 +428,7 @@
         <div class="price-row"><span class="price">£25.20</span><span class="rrp"><s>£36</s></span><span class="save">−30%</span></div>
         <p class="where">at <a href="https://www.cultbeauty.co.uk/p/living-proof-the-clean-soft-set/17904408/" target="_blank" rel="noopener">Cult Beauty</a></p>
         <div class="verdict-cat" data-d><span class="paws" aria-label="2 out of 5 paws"><span class="on">🐾</span><span class="on">🐾</span><span class="off">🐾</span><span class="off">🐾</span><span class="off">🐾</span></span> <span class="vc-line">Hiss. The spray can is the enemy. Bought anyway.</span></div>
-        <label class="tick" data-d><input type="checkbox" data-tick="lp"> <span>Got it ✓</span></label>
+        <label class="tick" data-d><input type="checkbox" data-tick="lp" data-price="25.20"> <span>Got it ✓</span></label>
         <div class="others"><h4>Also checked</h4><ul>
           <li><a href="https://www.spacenk.com/uk/search?q=living%20proof%20clean%20soft" target="_blank" rel="noopener">Space NK</a><span class="p">£25.20</span></li>
           <li><a href="https://www.sephora.co.uk/brands/living-proof" target="_blank" rel="noopener">Sephora UK</a><span class="p">£28.80</span></li>
@@ -508,7 +536,7 @@
     </div>
     <div class="table-card">
       <div class="scroll"><table>
-        <thead><tr><th>Item (Cult Beauty)</th><th class="num">Normal price</th><th class="num">23 Nov, morning</th><th class="num">23 Nov, afternoon</th></tr></thead>
+        <thead><tr><th>Item (Cult Beauty)</th><th class="num">Normal price</th><th class="num">23 Nov, morning</th><th class="num">23 Nov, 3pm</th></tr></thead>
         <tbody>
           <tr><td>Ouai Medium Shampoo 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
           <tr><td>Ouai Medium Conditioner 300ml</td><td class="num">£28.00</td><td class="num">£19.60</td><td class="num">£19.60 <span class="same">=</span></td></tr>
@@ -521,7 +549,7 @@
           <tr class="best"><td>Whole list (with Lip Butter Balm)</td><td class="num">£196.00</td><td class="num">£138.05</td><td class="num">£138.05</td></tr>
         </tbody>
       </table></div>
-      <p class="sub" style="padding-top:12px">No changes so far today. Next recheck: on the day we order.</p>
+      <p class="sub" style="padding-top:12px">Rechecked at 3pm on 23 Nov: no changes, everything in stock. Next recheck: on the day we order.</p>
     </div>
   </section>
 
@@ -624,6 +652,37 @@
     t.addEventListener('change', function () { store.set(key, t.checked ? '1' : '0'); updateProgress(); });
   });
   updateProgress();
+
+
+  // Budget bar: planned total uses her picks; bought = ticked items
+  var budgetIn = document.getElementById('budget');
+  var savedBudget = store.get('pc-budget'); if (savedBudget) budgetIn.value = savedBudget;
+  function itemPrice(t) {
+    var key = t.dataset.tick, sel;
+    if (key === 'sf') { sel = document.getElementById('pick-sf'); return /^Lip Oil/.test(sel.value) ? 18.20 : 16.10; }
+    if (key === 'ole') { sel = document.getElementById('pick-ole'); var m = sel.value.match(/£([\d.]+)/); return m ? parseFloat(m[1]) : 12.75; }
+    return parseFloat(t.dataset.price);
+  }
+  function gbp(n) { return '£' + n.toFixed(2); }
+  function updateBudget() {
+    var budget = Math.max(0, parseFloat(budgetIn.value) || 0), total = 0, bought = 0;
+    ticks.forEach(function (t) { var p = itemPrice(t); total += p; if (t.checked) bought += p; });
+    var scale = Math.max(budget, total) || 1, over = total > budget;
+    document.getElementById('bbar-planned').style.width = (100 * total / scale) + '%';
+    document.getElementById('bbar-bought').style.width = (100 * bought / scale) + '%';
+    document.querySelector('.bbar').classList.toggle('over', over);
+    var msg = document.getElementById('budget-msg');
+    msg.textContent = over ? gbp(total - budget) + ' over budget' : gbp(budget - total) + ' to spare';
+    msg.classList.toggle('over', over);
+    document.getElementById('b-bought').textContent = gbp(bought);
+    document.getElementById('b-left').textContent = gbp(total - bought);
+    document.getElementById('b-total').textContent = gbp(total);
+    document.getElementById('bbar-label').setAttribute('aria-label', 'Planned ' + gbp(total) + ' of ' + gbp(budget) + ' budget, ' + gbp(bought) + ' bought');
+  }
+  budgetIn.addEventListener('input', function () { store.set('pc-budget', budgetIn.value); updateBudget(); });
+  ticks.forEach(function (t) { t.addEventListener('change', updateBudget); });
+  document.querySelectorAll('select[data-pick]').forEach(function (s) { s.addEventListener('change', updateBudget); });
+  updateBudget();
 
   // Christmas countdown + gentle snow, until Boxing Day
   var now = new Date(), xmas = new Date(now.getFullYear(), 11, 25);
