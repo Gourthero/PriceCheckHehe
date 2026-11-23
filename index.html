@@ -869,7 +869,7 @@ if (FIREBASE_CONFIG) {
     const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const safeUrl = u => /^https:\/\/[^\s"'<>]+$/.test(u || '') ? u : null;
     const money = n => (typeof n === 'number' && isFinite(n)) ? '£' + n.toFixed(2) : '';
-    const label = { pending: 'Waiting ⏳', working: 'Checking now 🔎', done: 'Done ✓', failed: 'Couldn't find it' };
+    const label = { pending: 'Waiting ⏳', working: 'Checking now 🔎', done: 'Done ✓', failed: "Couldn't find it" };
     document.getElementById('req-form').addEventListener('submit', e => {
       e.preventDefault();
       const inp = document.getElementById('req-input'), v = inp.value.trim();
